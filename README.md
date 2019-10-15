@@ -1,4 +1,4 @@
-# expenses [![Build Status](https://travis-ci.org/seguraotoba/expenses.svg?branch=master)](https://travis-ci.org/seguraotoba/expenses
+# expenses ![Build Status](https://travis-ci.org/seguraotoba/expenses.svg?branch=master)https://travis-ci.org/seguraotoba/expenses
 
 Servi
 
