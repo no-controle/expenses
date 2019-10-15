@@ -36,3 +36,7 @@ repl-port
 out/
 build/
 
+# IntelliJ
+.idea/
+*.iml
+

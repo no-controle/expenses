@@ -2,10 +2,10 @@
   (:require [midje.sweet :refer :all]
             [io.pedestal.test :refer :all]
             [io.pedestal.http :as bootstrap]
-            [expenses.service :as service]))
+            [expenses.server :as server]))
 
 (def service
-  (::bootstrap/service-fn (bootstrap/create-servlet service/service)))
+  (::bootstrap/service-fn (bootstrap/create-servlet server/configuration)))
 
 (facts "true" 
   (fact "true" 
