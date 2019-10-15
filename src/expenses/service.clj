@@ -5,8 +5,8 @@
             [ring.util.response :as ring-resp]))
 
 (defn new-page
-  [request]
-  {:status 200 :body "New Page!"})
+  [{:keys [query-params]}]
+  {:status 200 :body query-params})
 
 (defn about-page
   [request]
