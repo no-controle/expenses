@@ -13,6 +13,7 @@
   :resource-paths ["config", "resources"]
   :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "expenses.server/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]
-                                  [midje "1.9.9"]]}
+                                  [midje "1.9.9"]] 
+                   :plugins [[lein-midje "3.2.1"]]}
              :uberjar {:aot [expenses.server]}}
   :main ^{:skip-aot true} expenses.server)
