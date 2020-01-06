@@ -11,26 +11,14 @@
   (fact "true" 
     (= 1 1) => true))
 
-(fact "home page"
-  (:body (response-for service :get "/")) => "Hello World!"
-  (:headers (response-for service :get "/")) => 
-       {"Content-Type" "text/html;charset=UTF-8"
-        "Strict-Transport-Security" "max-age=31536000; includeSubdomains"
-        "X-Frame-Options" "DENY"
-        "X-Content-Type-Options" "nosniff"
-        "X-XSS-Protection" "1; mode=block"
-        "X-Download-Options" "noopen"
-        "X-Permitted-Cross-Domain-Policies" "none"
-        "Content-Security-Policy" "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;"})
-
-(fact "about-page-test"
-  (:body (response-for service :get "/about")) => (contains "Clojure 1.10.1")
-  (:headers (response-for service :get "/about")) => 
-    {"Content-Type" "text/html;charset=UTF-8"
-     "Strict-Transport-Security" "max-age=31536000; includeSubdomains"
-     "X-Frame-Options" "DENY"
-     "X-Content-Type-Options" "nosniff"
-     "X-XSS-Protection" "1; mode=block"
-     "X-Download-Options" "noopen"
-     "X-Permitted-Cross-Domain-Policies" "none"
-     "Content-Security-Policy" "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;"})
+;(fact "home page"
+;  (:body (response-for service :get "/")) => "Hello World!"
+;  (:headers (response-for service :get "/")) =>
+;       {"Content-Type" "text/html;charset=UTF-8"
+;        "Strict-Transport-Security" "max-age=31536000; includeSubdomains"
+;        "X-Frame-Options" "DENY"
+;        "X-Content-Type-Options" "nosniff"
+;        "X-XSS-Protection" "1; mode=block"
+;        "X-Download-Options" "noopen"
+;        "X-Permitted-Cross-Domain-Policies" "none"
+;        "Content-Security-Policy" "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;"})
