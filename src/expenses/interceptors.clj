@@ -1,6 +1,7 @@
 (ns expenses.interceptors
   (:require [monger.core :as mg]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [io.pedestal.interceptor.error :as error-int]))
 
 (def db-interceptor
   {:name  :database-interceptor
@@ -15,3 +16,18 @@
             (update context :response assoc
                     :headers {"Content-Type" "application/json"}
                     :body (json/write-str (-> context :response :body))))})
+
+(def service-error-handler
+  (error-int/error-dispatch
+    [ctx ex]
+
+    [{:exception-type :com.mongodb.DuplicateKeyException}]
+    ((assoc ctx :response {:status 400 :body {:message     "Trying to insert existent input"
+                                              :error-trace (str ex)}}))
+
+    [{:exception-type :java.lang.IllegalArgumentException}]
+    (assoc ctx :response {:status 400 :body {:message     "Some field is missing or has a typo"
+                                             :error-trace (str ex)}})
+
+    :else
+    (assoc ctx :io.pedestal.interceptor.chain/error ex)))

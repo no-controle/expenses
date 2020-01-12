@@ -15,7 +15,10 @@
       ^:interceptors [(body-params/body-params)
                       http/html-body
                       interceptors/db-interceptor
-                      interceptors/to-json-response-interceptor]
+                      interceptors/to-json-response-interceptor
+                      interceptors/service-error-handler]
       ["/expenses"
-       ["/purchase"
-        {:post http-in/create-purchase}]]]]])
+       ["/purchases"
+        {:post http-in/create-purchase}
+        ["/batch"
+         {:post http-in/create-purchases-batch}]]]]]])

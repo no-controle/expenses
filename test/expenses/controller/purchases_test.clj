@@ -1,25 +1,26 @@
 (ns expenses.controller.purchases-test
   (:require [midje.sweet :refer :all]
             [expenses.controller.purchases :as controller.purchases]
-            [monger.collection :as mc])
-  (:import (clojure.lang ExceptionInfo)))
+            [expenses.db.purchases :as db.purchases]))
 
-(fact "create new purchase should return purchase created"
-  (controller.purchases/create-purchase {:title  "title"
-                                         :date   "20202-01-01"
-                                         :amount 10} ..db..) => {:message "Purchase created"}
-  (provided
-    (mc/insert ..db.. "expenses" {:_id    "-1028434777"
-                                  :title  "title"
-                                  :date   "20202-01-01"
-                                  :amount 10}) => ..mongo-success-result..))
+(facts "create a new purchase"
+  (fact "should return purchase created"
+    (controller.purchases/create-purchase ..purchase.. ..db..) => {:message "Purchase created"}
+    (provided
+      (db.purchases/create-purchase ..purchase.. ..db..) => ..mongo-success-result..))
 
-(fact "create new purchase when already exists one should return error"
-  (controller.purchases/create-purchase {:title  "title"
-                                         :date   "20202-01-01"
-                                         :amount 10} ..db..) => (throws ExceptionInfo #"Purchase already exist on database")
-  (provided
-    (mc/insert ..db.. "expenses" {:_id    "-1028434777"
-                                  :title  "title"
-                                  :date   "20202-01-01"
-                                  :amount 10}) => (throw (Exception. "error"))))
+ (fact "when already exists one should return error"
+   (controller.purchases/create-purchase ..purchase.. ..db..) => (throws Exception)
+   (provided
+     (db.purchases/create-purchase ..purchase.. ..db..) => (throw (Exception.)))))
+
+(facts "create a purchases list"
+  (fact "should return purchases created"
+    (controller.purchases/create-purchases-list ..purchases-list.. ..db..) => {:message "Processo finalizou"}
+    (provided
+      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => ..mongo-success-result..))
+
+  (fact "should throw"
+    (controller.purchases/create-purchases-list ..purchases-list.. ..db..) => (throws Exception)
+    (provided
+      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => (throw (Exception.)))))
