@@ -96,4 +96,3 @@
                                                  :amount   200
                                                  :category "Entertainment"
                                                  :source   nil}]) => (throws IllegalArgumentException)))
-

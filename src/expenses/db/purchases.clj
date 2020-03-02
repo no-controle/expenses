@@ -13,6 +13,10 @@
                                   (:date purchase)
                                   (:amount purchase))))
 
+(defn get-by-period
+  [period db]
+  (mc/find-maps db purchases-collection {:bill-date period}))
+
 (defn create-purchase
   [purchase db]
   (->> purchase

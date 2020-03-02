@@ -1,9 +1,8 @@
 (ns expenses.service
-  (:require [expenses.interceptors :as interceptors]
+  (:require [expenses.http.http-in :as http-in]
+            [expenses.interceptors :as interceptors]
             [io.pedestal.http :as http]
-            [io.pedestal.http.body-params :as body-params]
-            [monger.collection :as mc]
-            [expenses.http.http-in :as http-in]))
+            [io.pedestal.http.body-params :as body-params]))
 
 (defn home-page
   [_]
@@ -19,6 +18,9 @@
                       interceptors/service-error-handler]
       ["/expenses"
        ["/purchases"
+        {:get http-in/get-purchases-by-period}
         {:post http-in/create-purchase}
+        ["/summary"
+         {:get http-in/get-purchases-summary-by-period}]
         ["/batch"
          {:post http-in/create-purchases-batch}]]]]]])

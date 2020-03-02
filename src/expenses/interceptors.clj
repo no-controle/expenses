@@ -1,7 +1,7 @@
 (ns expenses.interceptors
-  (:require [monger.core :as mg]
-            [clojure.data.json :as json]
-            [io.pedestal.interceptor.error :as error-int]))
+  (:require [clojure.data.json :as json]
+            [io.pedestal.interceptor.error :as error-int]
+            [monger.core :as mg]))
 
 (def db-interceptor
   {:name  :database-interceptor
