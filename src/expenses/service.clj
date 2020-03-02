@@ -21,6 +21,9 @@
         {:get http-in/get-purchases-by-period}
         {:post http-in/create-purchase}
         ["/summary"
-         {:get http-in/get-purchases-summary-by-period}]
+         ["/by-category"
+          {:get http-in/get-purchases-summary-by-period}]
+         ["/by-title"
+          {:get http-in/get-purchases-summary-by-title}]]
         ["/batch"
          {:post http-in/create-purchases-batch}]]]]]])

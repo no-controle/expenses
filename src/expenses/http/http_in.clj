@@ -20,6 +20,11 @@
   {:status 200
    :body   (controller.purchases/get-summary-by-period query-params db)})
 
+(defn get-purchases-summary-by-title
+  [{:keys [query-params db]}]
+  {:status 200
+   :body   (controller.purchases/get-summary-by-title query-params db)})
+
 (defn create-purchases-batch
   [{:keys [json-params db]}]
   {:status 200

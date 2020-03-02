@@ -16,9 +16,9 @@
        (map :amount)
        (reduce +)))
 
-(defn category-input
-  [category-and-list]
-  {:category  (first category-and-list)
+(defn summary-input
+  [category-and-list input-type]
+  {input-type (first category-and-list)
    :sum       (->> category-and-list second sum-amount)
    :count     (->> category-and-list second count)
    :purchases (->> category-and-list second)})
@@ -29,7 +29,17 @@
     (->> purchases
          (group-by :category)
          seq
-         (map #(category-input %))
+         (map #(summary-input % :category))
+         (sort-by :sum)
+         reverse)))
+
+(defn get-summary-by-title
+  [period-params db]
+  (let [purchases (get-by-period period-params db)]
+    (->> purchases
+         (group-by :title)
+         seq
+         (map #(summary-input % :title))
          (sort-by :sum)
          reverse)))
 
