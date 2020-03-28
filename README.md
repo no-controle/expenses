@@ -1,36 +1,57 @@
-# expenses [![Build Status](https://travis-ci.org/seguraotoba/expenses.svg?branch=master)](https://travis-ci.org/seguraotoba/expenses)
+# Expenses [![Build Status](https://travis-ci.org/seguraotoba/expenses.svg?branch=master)](https://travis-ci.org/seguraotoba/expenses)
 
-Servi
+This is an API to help on monthly expenses control. 
 
-## Getting Started
+Right below you can find the resources the API manages and the actions that you can do with it.
 
-1. Start the application: `lein run`
-2. Go to [localhost:8080](http://localhost:8080/) to see: `Hello World!`
-3. Read your app's source code at src/expenses/service.clj. Explore the docs of functions
-   that define routes and responses.
-4. Run your app's tests with `lein midje`. Read the tests at test/expenses/service_test.clj.
+## Tech Stach
+* Clojure
+* Pedestal
+* Mongo
 
+## Get started
+1. To execute the application `lein run`
+2. The application is accessible by [localhost:8080](http://localhost:8080/)
+3. To run the tests `lein midje`
+                   
+## Endpoints
 
-## Configuration
+* `GET /expenses/purchases` Fetches 10 latest created purchases
 
-To configure logging see config/logback.xml. By default, the app logs to stdout and logs/.
-To learn more about configuring Logback, read its [documentation](http://logback.qos.ch/documentation.html).
+* `GET /expenses/purchases?month=01&year=2000` Fetches all the purchases filtered by month and year (month is represented by number)
 
+* `GET /expenses/purchases/summary?month=01&year=2020&by=category` Retrieves a summary of the purchases filtered by period and grouped by category or title
 
-## Developing your service
+* `POST /expenses/purchases` Create new purchase
+```json
+{
+   "date": "2019-11-06", <date format yyyy-mm-dd>
+   "category": "serviços",
+   "title": "Mercpago*Pgtodecontas - tim",
+   "amount": 49.99,
+   "bill-date": "2019-12", <bill month and year format yyyy-mm>
+   "source": "Nubank"
+}
+```
 
-1. Start a new REPL: `lein repl`
-2. Start your service in dev-mode: `(def dev-serv (run-dev))`
-3. Connect your editor to the running REPL session.
-   Re-evaluated code will be seen immediately in the service.
-
-### [Docker](https://www.docker.com/) container support
-
-1. Configure your service to accept incoming connections (edit service.clj and add  ::http/host "0.0.0.0" )
-2. Build an uberjar of your service: `lein uberjar`
-3. Build a Docker image: `sudo docker build -t expenses .`
-4. Run your Docker image: `docker run -p 8080:8080 expenses`
-
-
-## Links
-* [Other Pedestal examples](http://pedestal.io/samples)
+* `POST /expenses/purchases/batch` Create multiple puchases at once
+```json
+[
+    {
+       "date": "2019-11-06", <date format yyyy-mm-dd>
+       "category": "Restaurante",
+       "title": "McDonalds",
+       "amount": 10,
+       "bill-date": "2019-12", <bill month and year format yyyy-mm>
+       "source": "Bank Card"
+    },
+    {
+       "date": "2019-11-06", <date format yyyy-mm-dd>
+       "category": "Supermercado",
+       "title": "Carrefour",
+       "amount": 15,
+       "bill-date": "2019-12", <bill month and year format yyyy-mm>
+       "source": "Bank Card"
+    }
+]
+```
