@@ -25,11 +25,11 @@ Right below you can find the resources the API manages and the actions that you 
 * `POST /expenses/purchases` Create new purchase
 ```json
 {
-   "date": "2019-11-06", <date format yyyy-mm-dd>
+   "date": "2019-11-06",
    "category": "serviços",
    "title": "Mercpago*Pgtodecontas - tim",
    "amount": 49.99,
-   "bill-date": "2019-12", <bill month and year format yyyy-mm>
+   "bill-date": "2019-12",
    "source": "Nubank"
 }
 ```
@@ -38,19 +38,19 @@ Right below you can find the resources the API manages and the actions that you 
 ```json
 [
     {
-       "date": "2019-11-06", <date format yyyy-mm-dd>
+       "date": "2019-11-06",
        "category": "Restaurante",
        "title": "McDonalds",
        "amount": 10,
-       "bill-date": "2019-12", <bill month and year format yyyy-mm>
+       "bill-date": "2019-12",
        "source": "Bank Card"
     },
     {
-       "date": "2019-11-06", <date format yyyy-mm-dd>
+       "date": "2019-11-06",
        "category": "Supermercado",
        "title": "Carrefour",
        "amount": 15,
-       "bill-date": "2019-12", <bill month and year format yyyy-mm>
+       "bill-date": "2019-12",
        "source": "Bank Card"
     }
 ]
