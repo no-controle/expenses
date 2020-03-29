@@ -2,8 +2,8 @@
   (:require [expenses.db.purchases :as db.purchases]))
 
 (defn get-by-period
-  [period-params db]
-  (db.purchases/get-by-period (str (:year period-params) "-" (:month period-params)) db))
+  [year month db]
+  (db.purchases/get-by-period (str year "-" month) db))
 
 (defn create-purchase
   [purchase db]
@@ -23,23 +23,14 @@
    :count     (->> category-and-list second count)
    :purchases (->> category-and-list second)})
 
-(defn get-summary-by-period
-  [period-params db]
-  (let [purchases (get-by-period period-params db)]
+(defn get-summary
+  [params db]
+  (let [group-type (-> params :by keyword)
+        purchases (get-by-period (:year params) (:month params) db)]
     (->> purchases
-         (group-by :category)
+         (group-by group-type)
          seq
-         (map #(summary-input % :category))
-         (sort-by :sum)
-         reverse)))
-
-(defn get-summary-by-title
-  [period-params db]
-  (let [purchases (get-by-period period-params db)]
-    (->> purchases
-         (group-by :title)
-         seq
-         (map #(summary-input % :title))
+         (map #(summary-input % group-type))
          (sort-by :sum)
          reverse)))
 

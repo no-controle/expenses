@@ -18,7 +18,7 @@
                      :amount   14
                      :period   "2020-12"
                      :category "Health"}
-                    {:title    "The express"
+                    {:title    "Grocery Store"
                      :date     "2020-12-08"
                      :amount   80
                      :period   "2020-12"
@@ -48,46 +48,86 @@
 
 (facts "get purchases list by period"
   (fact "should return puchases result"
-    (controller.purchases/get-by-period {:year "2020" :month "12"} ..db..) => {:title  "Purchase title"
-                                                                               :date   "2020-12-10"
-                                                                               :amount 50
-                                                                               :period "2020-12"}
+    (controller.purchases/get-by-period "2020" "12" ..db..) => {:title  "Purchase title"
+                                                                :date   "2020-12-10"
+                                                                :amount 50
+                                                                :period "2020-12"}
     (provided
       (db.purchases/get-by-period "2020-12" ..db..) => {:title  "Purchase title"
                                                         :date   "2020-12-10"
                                                         :amount 50
                                                         :period "2020-12"})))
 
-(facts "get purchases summary by period"
+(facts "get purchases summary by period and grouped by category"
   (fact "should return summary for given period"
-    (controller.purchases/get-summary-by-period {:year "2020" :month "12"} ..db..) => [{:category  "Entertainment"
-                                                                                        :sum       300
-                                                                                        :count     1
-                                                                                        :purchases [{:title    "The Fun Fun Fun"
-                                                                                                     :date     "2020-12-09"
-                                                                                                     :amount   300
-                                                                                                     :period   "2020-12"
-                                                                                                     :category "Entertainment"}]}
-                                                                                       {:category  "Supermarket"
-                                                                                        :sum       130
-                                                                                        :count     2
-                                                                                        :purchases [{:title    "Grocery Store"
-                                                                                                     :date     "2020-12-05"
-                                                                                                     :amount   50
-                                                                                                     :period   "2020-12"
-                                                                                                     :category "Supermarket"}
-                                                                                                    {:title    "The express"
-                                                                                                     :date     "2020-12-08"
-                                                                                                     :amount   80
-                                                                                                     :period   "2020-12"
-                                                                                                     :category "Supermarket"}]}
-                                                                                       {:category  "Health"
-                                                                                        :sum       14
-                                                                                        :count     1
-                                                                                        :purchases [{:title    "The med place"
-                                                                                                     :date     "2020-12-15"
-                                                                                                     :amount   14
-                                                                                                     :period   "2020-12"
-                                                                                                     :category "Health"}]}]
-        (provided
-          (db.purchases/get-by-period "2020-12" ..db..) => purchase-list)))
+    (controller.purchases/get-summary {:year  "2020"
+                                       :month "12"
+                                       :by    "category"} ..db..) => [{:category          "Entertainment"
+                                                                       :sum       300
+                                                                       :count     1
+                                                                       :purchases [{:title    "The Fun Fun Fun"
+                                                                                    :date     "2020-12-09"
+                                                                                    :amount   300
+                                                                                    :period   "2020-12"
+                                                                                    :category "Entertainment"}]}
+                                                                      {:category  "Supermarket"
+                                                                       :sum       130
+                                                                       :count     2
+                                                                       :purchases [{:title    "Grocery Store"
+                                                                                    :date     "2020-12-05"
+                                                                                    :amount   50
+                                                                                    :period   "2020-12"
+                                                                                    :category "Supermarket"}
+                                                                                   {:title    "Grocery Store"
+                                                                                    :date     "2020-12-08"
+                                                                                    :amount   80
+                                                                                    :period   "2020-12"
+                                                                                    :category "Supermarket"}]}
+                                                                      {:category  "Health"
+                                                                       :sum       14
+                                                                       :count     1
+                                                                       :purchases [{:title    "The med place"
+                                                                                    :date     "2020-12-15"
+                                                                                    :amount   14
+                                                                                    :period   "2020-12"
+                                                                                    :category "Health"}]}]
+
+    (provided
+      (db.purchases/get-by-period "2020-12" ..db..) => purchase-list)))
+
+(facts "get purchases summary by period and grouped by title"
+  (fact "should return summary for given period"
+    (controller.purchases/get-summary {:year  "2020"
+                                       :month "12"
+                                       :by    "title"} ..db..) => [{:title         "The Fun Fun Fun"
+                                                                    :sum       300
+                                                                    :count     1
+                                                                    :purchases [{:title    "The Fun Fun Fun"
+                                                                                 :date     "2020-12-09"
+                                                                                 :amount   300
+                                                                                 :period   "2020-12"
+                                                                                 :category "Entertainment"}]}
+                                                                   {:title     "Grocery Store"
+                                                                    :sum       130
+                                                                    :count     2
+                                                                    :purchases [{:title    "Grocery Store"
+                                                                                 :date     "2020-12-05"
+                                                                                 :amount   50
+                                                                                 :period   "2020-12"
+                                                                                 :category "Supermarket"}
+                                                                                {:title    "Grocery Store"
+                                                                                 :date     "2020-12-08"
+                                                                                 :amount   80
+                                                                                 :period   "2020-12"
+                                                                                 :category "Supermarket"}]}
+                                                                   {:title     "The med place"
+                                                                    :sum       14
+                                                                    :count     1
+                                                                    :purchases [{:title    "The med place"
+                                                                                 :date     "2020-12-15"
+                                                                                 :amount   14
+                                                                                 :period   "2020-12"
+                                                                                 :category "Health"}]}]
+
+      (provided
+        (db.purchases/get-by-period "2020-12" ..db..) => purchase-list)))

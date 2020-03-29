@@ -2,11 +2,10 @@
   (:require [expenses.adapter.purchases :as adapter.purchases]
             [expenses.controller.purchases :as controller.purchases]))
 
-(defn get-purchases-by-period
+(defn get-purchases
   [{:keys [query-params db]}]
   {:status 200
-   :body   (-> query-params
-               (controller.purchases/get-by-period db))})
+   :body   (controller.purchases/get-by-period (:year query-params) (:month query-params) db)})
 
 (defn create-purchase
   [{:keys [json-params db]}]
@@ -15,15 +14,10 @@
                adapter.purchases/http-in->purchase
                (controller.purchases/create-purchase db))})
 
-(defn get-purchases-summary-by-period
+(defn get-purchases-summary
   [{:keys [query-params db]}]
   {:status 200
-   :body   (controller.purchases/get-summary-by-period query-params db)})
-
-(defn get-purchases-summary-by-title
-  [{:keys [query-params db]}]
-  {:status 200
-   :body   (controller.purchases/get-summary-by-title query-params db)})
+   :body   (controller.purchases/get-summary query-params db)})
 
 (defn create-purchases-batch
   [{:keys [json-params db]}]

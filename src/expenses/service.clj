@@ -18,12 +18,9 @@
                       interceptors/service-error-handler]
       ["/expenses"
        ["/purchases"
-        {:get http-in/get-purchases-by-period}
+        {:get http-in/get-purchases}
         {:post http-in/create-purchase}
         ["/summary"
-         ["/by-category"
-          {:get http-in/get-purchases-summary-by-period}]
-         ["/by-title"
-          {:get http-in/get-purchases-summary-by-title}]]
+         {:get http-in/get-purchases-summary}]
         ["/batch"
          {:post http-in/create-purchases-batch}]]]]]])

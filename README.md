@@ -16,8 +16,6 @@ Right below you can find the resources the API manages and the actions that you 
                    
 ## Endpoints
 
-* `GET /expenses/purchases` Fetches 10 latest created purchases
-
 * `GET /expenses/purchases?month=01&year=2000` Fetches all the purchases filtered by month and year (month is represented by number)
 
 * `GET /expenses/purchases/summary?month=01&year=2020&by=category` Retrieves a summary of the purchases filtered by period and grouped by category or title
