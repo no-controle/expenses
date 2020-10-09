@@ -17,10 +17,14 @@
                       interceptors/to-json-response-interceptor
                       interceptors/service-error-handler]
       ["/expenses"
+
        ["/purchases"
         {:get http-in/get-purchases}
         {:post http-in/create-purchase}
         ["/summary"
          {:get http-in/get-purchases-summary}]
         ["/batch"
-         {:post http-in/create-purchases-batch}]]]]]])
+         {:post http-in/create-purchases-batch}]]
+
+       ["/fixed"
+        {:post http-in/create-fixed-expense}]]]]])
