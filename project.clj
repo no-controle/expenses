@@ -4,7 +4,8 @@
                  [io.pedestal/pedestal.jetty "0.5.7"]
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/data.json "0.2.6"]
-                 [org.slf4j/slf4j-simple "1.7.30"]]
+                 [org.slf4j/slf4j-simple "1.7.30"]
+                 [clj-time "0.15.2"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   :profiles {:dev     {:aliases      {"run-dev" ["trampoline" "run" "-m" "expenses.server/run-dev"]}
