@@ -27,4 +27,6 @@
          {:post http-in/create-purchases-batch}]]
 
        ["/fixed"
-        {:post http-in/create-fixed-expense}]]]]])
+        {:post http-in/create-fixed-expense}
+        ["/:id"
+         {:delete http-in/delete-fixed-expense}]]]]]])

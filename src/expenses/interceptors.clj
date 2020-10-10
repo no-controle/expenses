@@ -11,10 +11,11 @@
               (update context :request assoc :db db)))})
 
 (defn id-to-string [response]
-  (let [id (-> response :_id str)]
+  (if (not (nil? (:_id response)))
     (-> response
-        (assoc :id id)
-        (dissoc :_id))))
+        (assoc :id (-> response :_id str))
+        (dissoc :_id))
+    response))
 
 (def to-json-response-interceptor
   {:name  :to-json-response

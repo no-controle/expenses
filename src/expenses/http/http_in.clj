@@ -21,6 +21,13 @@
    :body   (-> json-params
                (controller.fixed/create-fixed db))})
 
+(defn delete-fixed-expense
+  [{:keys [path-params db]}]
+  {:status 200
+   :body   (-> path-params
+               :id
+               (controller.fixed/delete-fixed db))})
+
 (defn get-purchases-summary
   [{:keys [query-params db]}]
   {:status 200
