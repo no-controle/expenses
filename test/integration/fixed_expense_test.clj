@@ -5,7 +5,8 @@
             [io.pedestal.test :refer :all]
             [monger.collection :as mc]
             [monger.core :as mg]
-            [midje.sweet :refer :all]))
+            [midje.sweet :refer :all]
+            [expenses.logic.db-helper :as db-helper]))
 
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet server/configuration)))
@@ -29,12 +30,14 @@
         (json/read-str :key-fn keyword))))
 
 
-(fact "Should create a new fixed expense successfully"
-  (do-post-request "/expenses/fixed" {:title  "Rent"
-                                      :amount 800
-                                      :source "cash"}) => (contains {:title  "Rent"
-                                                                     :amount 800
-                                                                     :source "cash"}))
+(fact "Should create a new fixed expense successfullya"
+   (do-post-request "/expenses/fixed" {:title  "Rent"
+                                       :amount 800
+                                       :source "cash"}) => (contains {:title      "Rent"
+                                                                      :amount     800
+                                                                      :source     "cash"
+                                                                      :active     true
+                                                                      :created-at (db-helper/current-date)}))
 
 (fact "Should delete a fixed expense successfully"
   (let [fixed-expense (do-post-request "/expenses/fixed" {:title  "Rent" :amount 800 :source "cash"})]

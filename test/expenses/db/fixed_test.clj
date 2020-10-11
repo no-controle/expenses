@@ -1,7 +1,8 @@
 (ns expenses.db.fixed-test
   (:require [midje.sweet :refer :all]
             [expenses.db.fixed :as db.fixed]
-            [monger.collection :as mc]))
+            [monger.collection :as mc]
+            [expenses.logic.db-helper :as db-helper]))
 
 (fact "create fixed expense should add the right id and created-at to the expense"
   (db.fixed/create-expense {:title  "Rent"
@@ -9,8 +10,8 @@
                             :source "cash"
                             :active true} ..db..) => ..inserted-input..
   (provided
-    (db.fixed/generate-uuid) => ..uuid..
-    (db.fixed/current-date) => ..today..
+    (db-helper/generate-uuid) => ..uuid..
+    (db-helper/current-date) => ..today..
     (mc/insert-and-return ..db.. "fixed" {:_id        ..uuid..
                                           :title      "Rent"
                                           :amount     800

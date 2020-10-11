@@ -1,26 +1,12 @@
 (ns expenses.db.fixed
   (:require [monger.collection :as mc]
-            [monger.util :as mu]
-            [io.pedestal.log :as log]
-            [clj-time.local :as time-local]
-            [clj-time.format :as time-format]))
+            [expenses.logic.db-helper :as db-helper]))
 
 (def fixed-collection "fixed")
 
-(defn generate-uuid [] (mu/random-uuid))
-
-(defn current-date []
-  (let [now (time-local/local-now)]
-    (-> (time-format/formatter "yyyy-MM-dd")
-        (time-format/unparse now))))
-
-(defn add-id-and-created-at [expense] (-> expense
-                                          (assoc :_id (generate-uuid))
-                                          (assoc :created-at (current-date))))
-
 (defn create-expense [fixed-expense db]
   (->> fixed-expense
-       add-id-and-created-at
+       db-helper/add-id-and-created-at
        (mc/insert-and-return db fixed-collection)))
 
 (defn search-expense-with [search-parameters db]
