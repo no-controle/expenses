@@ -1,9 +1,19 @@
 (ns expenses.controller.purchases
-  (:require [expenses.db.purchases :as db.purchases]))
+  (:require [expenses.db.purchases :as db.purchases]
+            [clojure.data.csv :as csv])
+  (:import (javax.management InstanceAlreadyExistsException)))
+
+(defn purchase-search-params [purchase]
+  {:title  (:title purchase)
+   :amount (:amount purchase)
+   :source (:source purchase)})
 
 (defn create-purchase
   [purchase db]
-  (db.purchases/create-purchase purchase db))
+  (let [existent-purchase (db.purchases/search-purchase-with (purchase-search-params purchase) db)]
+    (if (empty? existent-purchase)
+      (db.purchases/create-purchase purchase db)
+      (throw (InstanceAlreadyExistsException. (str "Purchase id: " (:_id existent-purchase)))))))
 
 (defn create-purchases-list
   [purchases-list db]
@@ -42,3 +52,8 @@
          (map #(summary-input % group-type))
          (sort-by :sum)
          reverse)))
+
+; Process CSV to map list
+; Save each item
+  ; Check if exists
+  ; Save

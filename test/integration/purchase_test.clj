@@ -14,6 +14,7 @@
                                                 :bill-year  "2020"}) => (contains {:title      "Target"
                                                                                    :amount     240
                                                                                    :source     "Credit Card"
+                                                                                   :category   "Supermarket"
                                                                                    :date       "2020-10-20"
                                                                                    :bill-month "11"
                                                                                    :bill-year  "2020"}))

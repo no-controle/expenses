@@ -24,16 +24,39 @@
                      :period   "2020-12"
                      :category "Supermarket"}])
 
-(facts "create a new purchase"
+(facts "create a new purchasea"
   (fact "should return purchase created"
-    (controller.purchases/create-purchase ..purchase.. ..db..) => ..mongo-success-result..
+    (controller.purchases/create-purchase {:title      "Target"
+                                           :amount     240
+                                           :source     "Credit Card"
+                                           :category   "Supermarket"
+                                           :date       "2020-10-20"
+                                           :bill-month "11"
+                                           :bill-year  "2020"} ..db..) => ..mongo-success-result..
     (provided
-      (db.purchases/create-purchase ..purchase.. ..db..) => ..mongo-success-result..))
+      (db.purchases/search-purchase-with {:title      "Target"
+                                          :amount     240
+                                          :source     "Credit Card"} ..db..) => nil
+      (db.purchases/create-purchase {:title      "Target"
+                                     :amount     240
+                                     :source     "Credit Card"
+                                     :category   "Supermarket"
+                                     :date       "2020-10-20"
+                                     :bill-month "11"
+                                     :bill-year  "2020"} ..db..) => ..mongo-success-result..))
 
  (fact "when already exists one should return error"
-   (controller.purchases/create-purchase ..purchase.. ..db..) => (throws Exception)
+   (controller.purchases/create-purchase {:title      "Target"
+                                          :amount     240
+                                          :source     "Credit Card"
+                                          :category   "Supermarket"
+                                          :date       "2020-10-20"
+                                          :bill-month "11"
+                                          :bill-year  "2020"} ..db..) => (throws Exception)
    (provided
-     (db.purchases/create-purchase ..purchase.. ..db..) => (throw (Exception.)))))
+     (db.purchases/search-purchase-with {:title      "Target"
+                                         :amount     240
+                                         :source     "Credit Card"} ..db..) => ..existent-purchase..)))
 
 (facts "create a purchases list"
   (fact "should return purchases created"
