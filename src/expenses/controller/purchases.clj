@@ -1,14 +1,18 @@
 (ns expenses.controller.purchases
   (:require [expenses.db.purchases :as db.purchases]))
 
+(defn create-purchase
+  [purchase db]
+  (db.purchases/create-purchase purchase db))
+
+(defn create-purchases-list
+  [purchases-list db]
+  (db.purchases/create-purchases-list purchases-list db)
+  {:message "Processo finalizou"})
+
 (defn get-by-period
   [year month db]
   (db.purchases/get-by-period (str year "-" month) db))
-
-(defn create-purchase
-  [purchase db]
-  (db.purchases/create-purchase purchase db)
-  {:message "Purchase created"})
 
 (defn sum-amount
   [purchases-list]
@@ -33,8 +37,3 @@
          (map #(summary-input % group-type))
          (sort-by :sum)
          reverse)))
-
-(defn create-purchases-list
-  [purchases-list db]
-  (db.purchases/create-purchases-list purchases-list db)
-  {:message "Processo finalizou"})

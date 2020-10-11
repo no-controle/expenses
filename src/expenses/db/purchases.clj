@@ -13,15 +13,11 @@
                                   (:date purchase)
                                   (:amount purchase))))
 
-(defn get-by-period
-  [period db]
-  (mc/find-maps db purchases-collection {:bill-date period}))
-
 (defn create-purchase
   [purchase db]
   (->> purchase
        add-id-to-purchase
-       (mc/insert db purchases-collection)))
+       (mc/insert-and-return db purchases-collection)))
 
 (defn create-purchases-list
   [purchases-list db]
@@ -32,3 +28,7 @@
         (create-purchase purchase db)
         (catch Exception ex
           (log/error :exception ex))))))
+
+(defn get-by-period
+  [period db]
+  (mc/find-maps db purchases-collection {:bill-date period}))

@@ -7,12 +7,13 @@
 
 (defn http-in->purchase
   [purchase]
-  {:title     (not-null-or-throw purchase :title)
-   :date      (not-null-or-throw purchase :date)
-   :amount    (not-null-or-throw purchase :amount)
-   :category  (not-null-or-throw purchase :category)
-   :source    (not-null-or-throw purchase :source)
-   :bill-date (not-null-or-throw purchase :bill-date)})
+  {:title      (not-null-or-throw purchase :title)
+   :date       (not-null-or-throw purchase :date)
+   :amount     (not-null-or-throw purchase :amount)
+   :category   (not-null-or-throw purchase :category)
+   :source     (not-null-or-throw purchase :source)
+   :bill-month (not-null-or-throw purchase :bill-month)
+   :bill-year  (not-null-or-throw purchase :bill-year)})
 
 (defn http-in->purchases-list
   [purchases-list]

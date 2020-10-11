@@ -26,7 +26,7 @@
 
 (facts "create a new purchase"
   (fact "should return purchase created"
-    (controller.purchases/create-purchase ..purchase.. ..db..) => {:message "Purchase created"}
+    (controller.purchases/create-purchase ..purchase.. ..db..) => ..mongo-success-result..
     (provided
       (db.purchases/create-purchase ..purchase.. ..db..) => ..mongo-success-result..))
 

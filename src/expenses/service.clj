@@ -18,7 +18,7 @@
                       interceptors/service-error-handler]
       ["/expenses"
 
-       ["/purchases"
+       ["/purchase"
         {:get http-in/get-purchases}
         {:post http-in/create-purchase}
         ["/summary"

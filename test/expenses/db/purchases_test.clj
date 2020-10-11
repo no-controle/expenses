@@ -8,10 +8,10 @@
                                  :date   "2020-01-01"
                                  :amount 50} ..db..) => ..inserted-input..
   (provided
-    (mc/insert ..db.. "purchases" {:_id    "-864163186"
-                                   :title  "title"
-                                   :date   "2020-01-01"
-                                   :amount 50}) => ..inserted-input..))
+    (mc/insert-and-return ..db.. "purchases" {:_id    "-864163186"
+                                              :title  "title"
+                                              :date   "2020-01-01"
+                                              :amount 50}) => ..inserted-input..))
 
 (fact "create purchases list should add the right id to all the purchase"
   (db.purchases/create-purchases-list [{:title  "title"
@@ -21,11 +21,11 @@
                                         :date   "2020-01-02"
                                         :amount 100}] ..db..) => nil
   (provided
-    (mc/insert ..db.. "purchases" {:_id    "-864163186"
-                                    :title  "title"
-                                    :date   "2020-01-01"
-                                    :amount 50}) => ..inserted-input1..
-    (mc/insert ..db.. "purchases" {:title  "title 2"
-                                   :_id    "447888407"
-                                   :date   "2020-01-02"
-                                   :amount 100}) => ..inserted-input2..))
+    (mc/insert-and-return ..db.. "purchases" {:_id    "-864163186"
+                                               :title  "title"
+                                               :date   "2020-01-01"
+                                               :amount 50}) => ..inserted-input1..
+    (mc/insert-and-return ..db.. "purchases" {:title  "title 2"
+                                              :_id    "447888407"
+                                              :date   "2020-01-02"
+                                              :amount 100}) => ..inserted-input2..))
