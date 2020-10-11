@@ -29,4 +29,7 @@
        ["/fixed"
         {:post http-in/create-fixed-expense}
         ["/:id"
-         {:delete http-in/delete-fixed-expense}]]]]]])
+         {:delete http-in/delete-fixed-expense}]]]
+
+      ["/revenue"
+       {:post http-in/create-revenue}]]]])
