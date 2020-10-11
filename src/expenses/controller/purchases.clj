@@ -10,6 +10,11 @@
   (db.purchases/create-purchases-list purchases-list db)
   {:message "Processo finalizou"})
 
+(defn refund-purchase [id db]
+  (let [purchase (db.purchases/search-purchase-with {:_id id} db)]
+    (when (not-empty purchase) (db.purchases/update-purchase id (assoc purchase :refunded true) db))
+    {:message "Purchase deleted"}))
+
 (defn get-by-period
   [year month db]
   (db.purchases/get-by-period (str year "-" month) db))

@@ -1,6 +1,7 @@
 (ns expenses.db.purchases
   (:require [monger.collection :as mc]
-            [io.pedestal.log :as log]))
+            [io.pedestal.log :as log]
+            [expenses.logic.db-helper :as db-helper]))
 
 (def purchases-collection "purchases")
 
@@ -16,7 +17,7 @@
 (defn create-purchase
   [purchase db]
   (->> purchase
-       add-id-to-purchase
+       db-helper/add-id-and-created-at
        (mc/insert-and-return db purchases-collection)))
 
 (defn create-purchases-list
@@ -32,3 +33,10 @@
 (defn get-by-period
   [period db]
   (mc/find-maps db purchases-collection {:bill-date period}))
+
+(defn search-purchase-with [search-parameters db]
+  (mc/find-one-as-map db purchases-collection search-parameters))
+
+(defn update-purchase [id value db]
+  (mc/update-by-id db purchases-collection id value))
+

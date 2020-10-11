@@ -17,3 +17,13 @@
                                                                                    :date       "2020-10-20"
                                                                                    :bill-month "11"
                                                                                    :bill-year  "2020"}))
+
+(fact "Should delete purchase successfully"
+  (let [purchase (helper/do-post-request "/expenses/purchase" {:title      "Target"
+                                                               :amount     240
+                                                               :source     "Credit Card"
+                                                               :category   "Supermarket"
+                                                               :date       "2020-10-20"
+                                                               :bill-month "11"
+                                                               :bill-year  "2020"})]
+    (helper/do-delete-request (str "/expenses/purchase/" (:id purchase)))) => {:message "Purchase deleted"})

@@ -21,6 +21,8 @@
        ["/purchase"
         {:get http-in/get-purchases}
         {:post http-in/create-purchase}
+        ["/:id"
+         {:delete http-in/refund-purchase}]
         ["/summary"
          {:get http-in/get-purchases-summary}]
         ["/batch"

@@ -42,6 +42,13 @@
                adapter.purchases/http-in->purchase
                (controller.purchases/create-purchase db))})
 
+(defn refund-purchase
+  [{:keys [path-params db]}]
+  {:status 200
+   :body (-> path-params
+             :id
+             (controller.purchases/refund-purchase db))})
+
 (defn get-purchases-summary
   [{:keys [query-params db]}]
   {:status 200
