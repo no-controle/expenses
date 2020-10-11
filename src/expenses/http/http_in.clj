@@ -23,6 +23,13 @@
    :body (-> json-params
              (controller.revenue/create-revenue db))})
 
+(defn delete-revenue
+  [{:keys [path-params db]}]
+  {:status 200
+   :body   (-> path-params
+               :id
+               (controller.revenue/delete-revenue db))})
+
 (defn get-purchases
   [{:keys [query-params db]}]
   {:status 200

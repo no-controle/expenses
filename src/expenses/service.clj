@@ -32,4 +32,6 @@
          {:delete http-in/delete-fixed-expense}]]]
 
       ["/revenue"
-       {:post http-in/create-revenue}]]]])
+       {:post http-in/create-revenue}
+       ["/:id"
+        {:delete http-in/delete-revenue}]]]]])
