@@ -14,3 +14,7 @@
   (let [expense (db.fixed/search-expense-with {:_id id} db)]
     (when (not-empty expense) (db.fixed/update-expense id (assoc expense :active false) db))
     {:message "Expense deleted"}))
+
+(defn active-fixed-expenses [db]
+  (->> (db.fixed/search-expense-with {:active true} db)
+       (hash-map :fixed)))

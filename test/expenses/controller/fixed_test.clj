@@ -42,3 +42,14 @@
       (db.fixed/search-expense-with {:_id ..id..} ..db..) => {:_id ..id.. :active true}
       (db.fixed/update-expense ..id..{:_id ..id.. :active false} ..db..) => ..ok..)))
 
+(facts "Get active fixed expenses"
+  (fact "should return all fixed expenses for given year and month"
+    (controller.fixed/active-fixed-expenses ..db..) => {:fixed [{:title "fixed-01"
+                                                                 :amount      200}
+                                                                {:title  "fixed-02"
+                                                                 :amount 100}]}
+    (provided
+      (db.fixed/search-expense-with {:active true} ..db..) => [{:title  "fixed-01"
+                                                                :amount 200}
+                                                               {:title  "fixed-02"
+                                                                :amount 100}])))
