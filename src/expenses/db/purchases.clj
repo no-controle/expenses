@@ -40,3 +40,8 @@
 (defn update-purchase [id value db]
   (mc/update-by-id db purchases-collection id value))
 
+(defn search-purchase-in-category-with [category-list search-parameters db]
+  (mc/find-maps db purchases-collection (assoc search-parameters :category {:in category-list})))
+
+(defn search-purchase-not-in-category-with [category-list search-parameters db]
+  (mc/find-maps db purchases-collection (assoc search-parameters :category {:nin category-list})))

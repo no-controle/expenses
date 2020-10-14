@@ -16,5 +16,4 @@
     {:message "Expense deleted"}))
 
 (defn active-fixed-expenses [db]
-  (->> (db.fixed/search-expense-with {:active true} db)
-       (hash-map :fixed)))
+  (db.fixed/search-expense-with {:active true} db))

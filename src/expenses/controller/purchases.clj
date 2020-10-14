@@ -1,7 +1,8 @@
 (ns expenses.controller.purchases
-  (:require [expenses.db.purchases :as db.purchases]
-            [clojure.data.csv :as csv])
+  (:require [expenses.db.purchases :as db.purchases])
   (:import (javax.management InstanceAlreadyExistsException)))
+
+(def variable-categories ["Supermercado", "Transporte", "Saude"])
 
 (defn purchase-search-params [purchase]
   {:title  (:title purchase)
@@ -53,7 +54,9 @@
          (sort-by :sum)
          reverse)))
 
-; Process CSV to map list
-; Save each item
-  ; Check if exists
-  ; Save
+(defn variable-for-period [year month db]
+  (db.purchases/search-purchase-in-category-with variable-categories {:bill-month month :bill-year year} db))
+
+
+(defn other-for-period [year month db]
+  (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-month month :bill-year year} db))

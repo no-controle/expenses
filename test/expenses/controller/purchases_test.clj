@@ -3,10 +3,10 @@
             [expenses.controller.purchases :as controller.purchases]
             [expenses.db.purchases :as db.purchases]))
 
-(def purchase-list [{:title  "Grocery Store"
-                     :date   "2020-12-05"
-                     :amount 50
-                     :period "2020-12"
+(def purchase-list [{:title    "Grocery Store"
+                     :date     "2020-12-05"
+                     :amount   50
+                     :period   "2020-12"
                      :category "Supermarket"}
                     {:title    "The Fun Fun Fun"
                      :date     "2020-12-09"
@@ -34,9 +34,9 @@
                                            :bill-month "11"
                                            :bill-year  "2020"} ..db..) => ..mongo-success-result..
     (provided
-      (db.purchases/search-purchase-with {:title      "Target"
-                                          :amount     240
-                                          :source     "Credit Card"} ..db..) => nil
+      (db.purchases/search-purchase-with {:title  "Target"
+                                          :amount 240
+                                          :source "Credit Card"} ..db..) => nil
       (db.purchases/create-purchase {:title      "Target"
                                      :amount     240
                                      :source     "Credit Card"
@@ -45,18 +45,18 @@
                                      :bill-month "11"
                                      :bill-year  "2020"} ..db..) => ..mongo-success-result..))
 
- (fact "when already exists one should return error"
-   (controller.purchases/create-purchase {:title      "Target"
-                                          :amount     240
-                                          :source     "Credit Card"
-                                          :category   "Supermarket"
-                                          :date       "2020-10-20"
-                                          :bill-month "11"
-                                          :bill-year  "2020"} ..db..) => (throws Exception)
-   (provided
-     (db.purchases/search-purchase-with {:title      "Target"
-                                         :amount     240
-                                         :source     "Credit Card"} ..db..) => ..existent-purchase..)))
+  (fact "when already exists one should return error"
+    (controller.purchases/create-purchase {:title      "Target"
+                                           :amount     240
+                                           :source     "Credit Card"
+                                           :category   "Supermarket"
+                                           :date       "2020-10-20"
+                                           :bill-month "11"
+                                           :bill-year  "2020"} ..db..) => (throws Exception)
+    (provided
+      (db.purchases/search-purchase-with {:title  "Target"
+                                          :amount 240
+                                          :source "Credit Card"} ..db..) => ..existent-purchase..)))
 
 (facts "create a purchases list"
   (fact "should return purchases created"
@@ -85,7 +85,7 @@
   (fact "should return summary for given period"
     (controller.purchases/get-summary {:year  "2020"
                                        :month "12"
-                                       :by    "category"} ..db..) => [{:category          "Entertainment"
+                                       :by    "category"} ..db..) => [{:category  "Entertainment"
                                                                        :sum       300
                                                                        :count     1
                                                                        :purchases [{:title    "The Fun Fun Fun"
@@ -122,7 +122,7 @@
   (fact "should return summary for given period"
     (controller.purchases/get-summary {:year  "2020"
                                        :month "12"
-                                       :by    "title"} ..db..) => [{:title         "The Fun Fun Fun"
+                                       :by    "title"} ..db..) => [{:title     "The Fun Fun Fun"
                                                                     :sum       300
                                                                     :count     1
                                                                     :purchases [{:title    "The Fun Fun Fun"
@@ -152,5 +152,52 @@
                                                                                  :period   "2020-12"
                                                                                  :category "Health"}]}]
 
-      (provided
-        (db.purchases/get-by-period "2020-12" ..db..) => purchase-list)))
+    (provided
+      (db.purchases/get-by-period "2020-12" ..db..) => purchase-list)))
+
+(facts "Variable purchases for given year and month"
+  (fact "should return list of variable purchases"
+    (controller.purchases/variable-for-period 2020 10 ..db..) => [{:title    "variable-01"
+                                                                   :amount   100
+                                                                   :category "Supermercado"}
+                                                                  {:title    "variable-02"
+                                                                   :amount   100
+                                                                   :category "Transporte"}
+                                                                  {:title    "variable-03"
+                                                                   :amount   200
+                                                                   :category "Saude"}]
+    (provided
+      (db.purchases/search-purchase-in-category-with ["Supermercado", "Transporte", "Saude"]
+                                                     {:bill-month 10 :bill-year 2020}
+                                                     ..db..) => [{:title    "variable-01"
+                                                                  :amount   100
+                                                                  :category "Supermercado"}
+                                                                 {:title    "variable-02"
+                                                                  :amount   100
+                                                                  :category "Transporte"}
+                                                                 {:title    "variable-03"
+                                                                  :amount   200
+                                                                  :category "Saude"}]))
+
+  (fact "should return list of variable purchases"
+    (controller.purchases/other-for-period 2020 10 ..db..) => [{:title    "other-01"
+                                                                :amount   100
+                                                                :category "Entretenimento"}
+                                                               {:title    "other-02"
+                                                                :amount   100
+                                                                :category "Servicos"}
+                                                               {:title    "other-03"
+                                                                :amount   200
+                                                                :category "Lazer"}]
+    (provided
+      (db.purchases/search-purchase-not-in-category-with ["Supermercado", "Transporte", "Saude"]
+                                                         {:bill-month 10 :bill-year 2020}
+                                                         ..db..) => [{:title    "other-01"
+                                                                      :amount   100
+                                                                      :category "Entretenimento"}
+                                                                     {:title    "other-02"
+                                                                      :amount   100
+                                                                      :category "Servicos"}
+                                                                     {:title    "other-03"
+                                                                      :amount   200
+                                                                      :category "Lazer"}])))
