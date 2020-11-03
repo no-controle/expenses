@@ -2,7 +2,8 @@
   (:require [expenses.adapter.purchases :as adapter.purchases]
             [expenses.controller.purchases :as controller.purchases]
             [expenses.controller.revenue :as controller.revenue]
-            [expenses.controller.fixed :as controller.fixed]))
+            [expenses.controller.fixed :as controller.fixed]
+            [expenses.controller.monthly :as controller.monthly]))
 
 (defn create-fixed-expense
   [{:keys [json-params db]}]
@@ -60,4 +61,9 @@
    :body   (-> json-params
                adapter.purchases/http-in->purchases-list
                (controller.purchases/create-purchases-list db))})
+
+(defn monthly-data-for-period
+  [{:keys [query-params db]}]
+  {:status 200
+   :body (controller.monthly/data-for-period (:year query-params) (:month query-params) db)})
 

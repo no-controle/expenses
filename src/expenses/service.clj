@@ -1,7 +1,6 @@
 (ns expenses.service
   (:require [expenses.http.http-in :as http-in]
             [expenses.interceptors :as interceptors]
-            [io.pedestal.http :as http]
             [io.pedestal.http.body-params :as body-params]))
 
 (defn home-page
@@ -35,4 +34,7 @@
       ["/revenue"
        {:post http-in/create-revenue}
        ["/:id"
-        {:delete http-in/delete-revenue}]]]]])
+        {:delete http-in/delete-revenue}]]
+
+      ["/monthly"
+       {:get http-in/monthly-data-for-period}]]]])

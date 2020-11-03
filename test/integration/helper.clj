@@ -31,3 +31,10 @@
     (-> response
         :body
         (json/read-str :key-fn keyword))))
+
+(defn do-get-request [url]
+  (let [response (response-for service
+                               :get url)]
+    (-> response
+        :body
+        (json/read-str :key-fn keyword))))

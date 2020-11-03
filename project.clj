@@ -6,7 +6,8 @@
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/data.csv "1.0.0"]
                  [org.slf4j/slf4j-simple "1.7.30"]
-                 [clj-time "0.15.2"]]
+                 [clj-time "0.15.2"]
+                 [com.stuartsierra/component "1.0.0"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   :profiles {:dev     {:aliases      {"run-dev" ["trampoline" "run" "-m" "expenses.server/run-dev"]}
