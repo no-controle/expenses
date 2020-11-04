@@ -7,13 +7,15 @@
             [monger.collection :as mc]
             [expenses.logic.db-helper :as db-helper]))
 
+(def db-name "expenses-int-test")
+
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet server/configuration)))
 
 (def current-date (db-helper/current-date))
 
 (defn clean-collection [collection-name]
-  (-> (mg/get-db (mg/connect) "expenses")
+  (-> (mg/get-db (mg/connect) db-name)
       (mc/remove collection-name)))
 
 (defn do-delete-request [url]

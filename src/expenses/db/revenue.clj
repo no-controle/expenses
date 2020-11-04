@@ -11,7 +11,7 @@
        (mc/insert-and-return db revenue-collection)))
 
 (defn search-revenue-with [search-parameters db]
-  (mc/find-maps db revenue-collection search-parameters))
+  (mc/find-one-as-map db revenue-collection search-parameters))
 
 (defn search-revenue-for-period [year month db]
   (mc/find-maps db revenue-collection {:created-at {$regex (str year "-" month ".*")}

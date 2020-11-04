@@ -3,11 +3,15 @@
             [io.pedestal.interceptor.error :as error-int]
             [monger.core :as mg]))
 
+(def db-name "expenses-int-test")
+;(def db-name "expenses-dev")
+;(def db-name "expenses")
+
 (def db-interceptor
   {:name  :database-interceptor
    :enter (fn [context]
             (let [connection (mg/connect)
-                  db (mg/get-db connection "expenses")]
+                  db (mg/get-db connection db-name)]
               (update context :request assoc :db db)))})
 
 (defn id-to-string [response]
