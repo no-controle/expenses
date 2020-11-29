@@ -24,20 +24,20 @@
     (db.fixed/search-expense-with {:title  "Rent"
                                    :amount 800
                                    :source "cash"
-                                   :active true} ..db..) => ..existent-expense..
+                                   :active true} ..db..) => ..existent-expenses..
     (provided
-      (mc/find-one-as-map ..db.. "fixed" {:title  "Rent"
-                                          :amount 800
-                                          :source "cash"
-                                          :active true}) => ..existent-expense..))
+      (mc/find-maps ..db.. "fixed" {:title  "Rent"
+                                    :amount 800
+                                    :source "cash"
+                                    :active true}) => ..existent-expenses..))
 
   (fact "should return nil for search parameters when expense does not exist"
     (db.fixed/search-expense-with {:title  "Rent"
                                    :amount 800
                                    :source "cash"
-                                   :active true} ..db..) => nil
+                                   :active true} ..db..) => []
     (provided
-      (mc/find-one-as-map ..db.. "fixed" {:title  "Rent"
-                                          :amount 800
-                                          :source "cash"
-                                          :active true}) => nil)))
+      (mc/find-maps ..db.. "fixed" {:title  "Rent"
+                                    :amount 800
+                                    :source "cash"
+                                    :active true}) => [])))

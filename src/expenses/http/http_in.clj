@@ -67,3 +67,13 @@
   {:status 200
    :body (controller.monthly/data-for-period (:year query-params) (:month query-params) db)})
 
+
+(defn variable-purchases-for-period
+  [{:keys [query-params db]}]
+  {:status 200
+   :body (controller.purchases/variable-for-period (:year query-params) (:month query-params) db)})
+
+(defn other-purchases-for-period
+  [{:keys [query-params db]}]
+  {:status 200
+   :body (controller.purchases/other-for-period (:year query-params) (:month query-params) db)})

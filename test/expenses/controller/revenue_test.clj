@@ -27,13 +27,13 @@
   (fact "should delete revenue when exists"
     (controller.revenue/delete-revenue ..id.. ..db..) => {:message "Revenue deleted"}
     (provided
-      (db.revenue/search-revenue-with {:_id ..id..} ..db..) => {:_id ..id.. :active true}
+      (db.revenue/search-revenue-with {:_id ..id..} ..db..) => [{:_id ..id.. :active true}]
       (db.revenue/update-revenue ..id..{:_id ..id.. :active false} ..db..) => ..ok..))
 
   (fact "should not call delete revenue when does not exist for id"
     (controller.revenue/delete-revenue ..id.. ..db..) => {:message "Revenue deleted"}
     (provided
-      (db.revenue/search-revenue-with {:_id ..id..} ..db..) => nil)))
+      (db.revenue/search-revenue-with {:_id ..id..} ..db..) => [])))
 
 (facts "Get total revenue for period "
   (fact "should return total for given month and year when there is recurrent and regular revenues"

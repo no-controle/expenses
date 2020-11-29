@@ -10,7 +10,7 @@
        (mc/insert-and-return db fixed-collection)))
 
 (defn search-expense-with [search-parameters db]
-  (mc/find-one-as-map db fixed-collection search-parameters))
+  (mc/find-maps db fixed-collection search-parameters))
 
 (defn update-expense [id value db]
   (mc/update-by-id db fixed-collection id value))

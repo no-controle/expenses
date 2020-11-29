@@ -5,7 +5,7 @@
   (db.revenue/create-revenue (assoc revenue :active true) db))
 
 (defn delete-revenue [id db]
-  (let [revenue (db.revenue/search-revenue-with {:_id id} db)]
+  (let [revenue (-> (db.revenue/search-revenue-with {:_id id} db) first)]
     (when (not-empty revenue) (db.revenue/update-revenue id (assoc revenue :active false) db))
     {:message "Revenue deleted"}))
 

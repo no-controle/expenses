@@ -3,9 +3,16 @@
             [expenses.controller.fixed :as controller.fixed]
             [expenses.controller.purchases :as controller.purchases]))
 
-(defn to-response [item]
+(defn to-response-item [item]
   {:title  (:title item)
    :amount (:amount item)})
+
+(defn to-response [items]
+  (map
+    (fn [[grp-key values]]
+      {:title grp-key
+       :amount (reduce + (map :amount values))})
+    (group-by :category items)))
 
 (defn data-for-period [year month db]
   (let [revenue (controller.revenue/total-revenue-for-period year month db)
@@ -16,8 +23,8 @@
                            (map :amount)
                            (reduce +))]
     {:income   (:revenue revenue)
-     :expense  total-expense
+     :expenses  total-expense
      :balance  (-> (:revenue revenue) (- total-expense))
-     :fixed    (map to-response fixed)
-     :variable (map to-response variable)
-     :other    (map to-response other)}))
+     :fixed    (map to-response-item fixed)
+     :variable (to-response variable)
+     :other    (to-response other)}))

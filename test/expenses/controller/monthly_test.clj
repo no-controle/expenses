@@ -8,19 +8,19 @@
 (facts "Monthly data for period"
   (fact "Should return correct data with all attributes"
     (controller.monthly/data-for-period 2020 10 ..db..) => {:income   1000
-                                                            :expense  800
+                                                            :expenses  800
                                                             :balance  200
                                                             :fixed    [{:title  "fixed-01"
                                                                         :amount 200}
                                                                        {:title  "fixed-02"
                                                                         :amount 100}]
-                                                            :variable [{:title  "variable-01"
+                                                            :variable [{:title  "Supermercado"
                                                                         :amount 100}
-                                                                       {:title  "variable-02"
+                                                                       {:title  "Saude"
                                                                         :amount 100}
-                                                                       {:title  "variable-03"
+                                                                       {:title  "Pets"
                                                                         :amount 200}]
-                                                            :other    [{:title  "other"
+                                                            :other    [{:title  "Reparos"
                                                                         :amount 100}]}
       (provided
         (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 1000}

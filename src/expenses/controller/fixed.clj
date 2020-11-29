@@ -11,7 +11,7 @@
       (throw (InstanceAlreadyExistsException. (str "Expense id: " (:_id existent-expense)))))))
 
 (defn delete-fixed [id db]
-  (let [expense (db.fixed/search-expense-with {:_id id} db)]
+  (let [expense (-> (db.fixed/search-expense-with {:_id id} db) first)]
     (when (not-empty expense) (db.fixed/update-expense id (assoc expense :active false) db))
     {:message "Expense deleted"}))
 

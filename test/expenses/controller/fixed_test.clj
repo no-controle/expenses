@@ -33,13 +33,13 @@
       (db.fixed/search-expense-with {:title  "Rent"
                                      :amount 800
                                      :source "cash"
-                                     :active true} ..db..) => fixed-expense)))
+                                     :active true} ..db..) => [fixed-expense])))
 
 (facts "delete fixed expense"
   (fact "should delete expense when exists"
     (controller.fixed/delete-fixed ..id.. ..db..) => {:message "Expense deleted"}
     (provided
-      (db.fixed/search-expense-with {:_id ..id..} ..db..) => {:_id ..id.. :active true}
+      (db.fixed/search-expense-with {:_id ..id..} ..db..) => [{:_id ..id.. :active true}]
       (db.fixed/update-expense ..id..{:_id ..id.. :active false} ..db..) => ..ok..)))
 
 (facts "Get active fixed expenses"
