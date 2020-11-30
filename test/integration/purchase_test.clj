@@ -1,6 +1,6 @@
 (ns integration.purchase-test
   (:require [midje.sweet :refer :all]
-            [integration.helper :as helper]))
+            [integration.helper.common :as helper]))
 
 (background (before :facts (helper/clean-collection "purchases")))
 

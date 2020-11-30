@@ -42,7 +42,7 @@
   (mc/update-by-id db purchases-collection id value))
 
 (defn search-purchase-in-category-with [category-list search-parameters db]
-  (mc/find-maps db purchases-collection (merge {:refunded  {$ne true}
+  (mc/find-maps db purchases-collection (merge {:refunded {$ne true}
                                                 :category {$in category-list}}
                                                search-parameters)))
 

@@ -1,11 +1,24 @@
-(ns integration.helper
-  (:require [io.pedestal.http :as bootstrap]
+(ns integration.helper.common
+  (:require [clj-time.core :as time]
             [clojure.data.json :as json]
-            [io.pedestal.test :refer :all]
+            [expenses.logic.db-helper :as db-helper]
             [expenses.server :as server]
-            [monger.core :as mg]
+            [io.pedestal.http :as bootstrap]
+            [io.pedestal.test :refer :all]
             [monger.collection :as mc]
-            [expenses.logic.db-helper :as db-helper]))
+            [monger.core :as mg]))
+
+(def now (time/now))
+(def current-month (time/month now))
+(def current-year (time/year now))
+(def previous-month
+  (if (= (- current-month 1) 0)
+    12
+    (- current-month 1)))
+(def previous-month-year
+  (if (= (- current-month 1) 0)
+    (- current-year 1)
+    current-year))
 
 (def db-name "expenses-int-test")
 
