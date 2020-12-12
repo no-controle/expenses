@@ -19,7 +19,13 @@
   [purchase db]
   (->> purchase
        db-helper/add-id-and-created-at
+       db-helper/add-updated-at
        (mc/insert-and-return db purchases-collection)))
+
+(defn update-purchase [id value db]
+  (->> value
+       db-helper/add-updated-at
+       (mc/update-by-id db purchases-collection id)))
 
 (defn create-purchases-list
   [purchases-list db]
@@ -37,9 +43,6 @@
 
 (defn search-purchase-with [search-parameters db]
   (mc/find-one-as-map db purchases-collection search-parameters))
-
-(defn update-purchase [id value db]
-  (mc/update-by-id db purchases-collection id value))
 
 (defn search-purchase-in-category-with [category-list search-parameters db]
   (mc/find-maps db purchases-collection (merge {:refunded {$ne true}
