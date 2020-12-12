@@ -17,7 +17,23 @@
                                           :amount     800
                                           :active     true
                                           :source     "cash"
-                                          :created-at ..today..}) => ..inserted-input..))
+                                          :created-at ..today..
+                                          :updated-at ..today..}) => ..inserted-input..))
+
+(fact "Update fixed expense should add updated-at value"
+  (db.fixed/update-expense ..uuid.. {:_id        ..uuid..
+                                     :title      "Rent"
+                                     :amount     800
+                                     :source     "cash"
+                                     :created-at ..created-date..} ..db..) => ..updated-expense..
+  (provided
+    (db-helper/current-date) => ..current-date..
+    (mc/update-by-id ..db.. "fixed"  ..uuid.. {:_id        ..uuid..
+                                               :title      "Rent"
+                                               :amount     800
+                                               :source     "cash"
+                                               :created-at ..created-date..
+                                               :updated-at ..current-date..}) => ..updated-expense..))
 
 (facts "search fixed expenses"
   (fact "should return result for search parameters when exists"
