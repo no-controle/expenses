@@ -17,4 +17,20 @@
                                             :amount     3500
                                             :active     true
                                             :recurrent  true
-                                            :created-at ..today..}) => ..inserted-input..))
+                                            :created-at ..today..
+                                            :updated-at ..today..}) => ..inserted-input..))
+
+(fact "Update revenue should add updated-at to revenue"
+  (db.revenue/update-revenue ..uuid.. {:title      "Salary"
+                                       :amount     3500
+                                       :recurrent  true
+                                       :active     false
+                                       :created-at ..created-date..} ..db..) => ..updated-revenue..
+  (provided
+    (db-helper/current-date) => ..current-date..
+    (mc/update-by-id ..db.. "revenue"  ..uuid.. {:title      "Salary"
+                                                 :amount     3500
+                                                 :active     false
+                                                 :recurrent  true
+                                                 :created-at ..created-date..
+                                                 :updated-at ..current-date..}) => ..updated-revenue..))

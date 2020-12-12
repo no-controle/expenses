@@ -10,7 +10,14 @@
   (log/info :msg (str "Creating revenue: " revenue))
   (->> revenue
        db-helper/add-id-and-created-at
+       db-helper/add-updated-at
        (mc/insert-and-return db revenue-collection)))
+
+(defn update-revenue [id revenue db]
+  (log/info :msg (str "Updating revenue with id " id " with: " revenue))
+  (->> revenue
+       db-helper/add-updated-at
+       (mc/update-by-id db revenue-collection id)))
 
 (defn search-revenue-with [search-parameters db]
   (log/info :msg (str "Searching revenue with parameters: " search-parameters))
@@ -20,7 +27,3 @@
   (log/info :msg (str "Searching revenue for period: " year "-" month))
   (mc/find-maps db revenue-collection {:created-at {$regex (str year "-" month ".*")}
                                        :recurrent  {$ne true}}))
-
-(defn update-revenue [id revenue db]
-  (log/info :msg (str "Updating revenue with id " id " with: " revenue))
-  (mc/update-by-id db revenue-collection id revenue))

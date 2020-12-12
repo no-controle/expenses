@@ -13,3 +13,6 @@
 (defn add-id-and-created-at [expense] (-> expense
                                           (assoc :_id (generate-uuid))
                                           (assoc :created-at (current-date))))
+
+(defn add-updated-at [expense] (-> expense
+                                   (assoc :updated-at (current-date))))
