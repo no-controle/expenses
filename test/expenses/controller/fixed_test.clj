@@ -56,30 +56,30 @@
 
 (facts "Getting fixed expenses for every month on given year"
   (fact "Should return active expenses from created month until december"
-    (controller.fixed/fixed-expenses-for-year 2020 ..db..) => [{:title  "Jan"
-                                                                :amount 0}
-                                                               {:title  "Fev"
-                                                                :amount 0}
-                                                               {:title  "Mar"
-                                                                :amount 0}
-                                                               {:title  "Abr"
-                                                                :amount 900}
-                                                               {:title  "Mai"
-                                                                :amount 900}
-                                                               {:title  "Jun"
-                                                                :amount 900}
-                                                               {:title  "Jul"
-                                                                :amount 900}
-                                                               {:title  "Ago"
-                                                                :amount 900}
-                                                               {:title  "Set"
-                                                                :amount 900}
-                                                               {:title  "Out"
-                                                                :amount 920}
-                                                               {:title  "Nov"
-                                                                :amount 920}
-                                                               {:title  "Dez"
-                                                                :amount 920}]
+    (controller.fixed/fixed-expenses-for-year "2020" ..db..) => [{:title  "Jan"
+                                                                  :amount 0}
+                                                                 {:title  "Fev"
+                                                                  :amount 0}
+                                                                 {:title  "Mar"
+                                                                  :amount 0}
+                                                                 {:title  "Abr"
+                                                                  :amount 900}
+                                                                 {:title  "Mai"
+                                                                  :amount 900}
+                                                                 {:title  "Jun"
+                                                                  :amount 900}
+                                                                 {:title  "Jul"
+                                                                  :amount 900}
+                                                                 {:title  "Ago"
+                                                                  :amount 900}
+                                                                 {:title  "Set"
+                                                                  :amount 900}
+                                                                 {:title  "Out"
+                                                                  :amount 920}
+                                                                 {:title  "Nov"
+                                                                  :amount 920}
+                                                                 {:title  "Dez"
+                                                                  :amount 920}]
     (provided
       (db.fixed/search-expense-with {:active true} ..db..) => [{:title        "Rent"
                                                                 :amount       800
@@ -99,30 +99,30 @@
       (db.fixed/search-expense-with {:active false} ..db..) => []))
 
   (fact "Should return inactive expenses until updated date"
-    (controller.fixed/fixed-expenses-for-year 2020 ..db..) => [{:title  "Jan"
-                                                                :amount 1500}
-                                                               {:title  "Fev"
-                                                                :amount 1500}
-                                                               {:title  "Mar"
-                                                                :amount 1500}
-                                                               {:title  "Abr"
-                                                                :amount 1500}
-                                                               {:title  "Mai"
-                                                                :amount 0}
-                                                               {:title  "Jun"
-                                                                :amount 0}
-                                                               {:title  "Jul"
-                                                                :amount 0}
-                                                               {:title  "Ago"
-                                                                :amount 0}
-                                                               {:title  "Set"
-                                                                :amount 0}
-                                                               {:title  "Out"
-                                                                :amount 0}
-                                                               {:title  "Nov"
-                                                                :amount 0}
-                                                               {:title  "Dez"
-                                                                :amount 0}]
+    (controller.fixed/fixed-expenses-for-year "2020" ..db..) => [{:title  "Jan"
+                                                                  :amount 1500}
+                                                                 {:title  "Fev"
+                                                                  :amount 1500}
+                                                                 {:title  "Mar"
+                                                                  :amount 1500}
+                                                                 {:title  "Abr"
+                                                                  :amount 1500}
+                                                                 {:title  "Mai"
+                                                                  :amount 0}
+                                                                 {:title  "Jun"
+                                                                  :amount 0}
+                                                                 {:title  "Jul"
+                                                                  :amount 0}
+                                                                 {:title  "Ago"
+                                                                  :amount 0}
+                                                                 {:title  "Set"
+                                                                  :amount 0}
+                                                                 {:title  "Out"
+                                                                  :amount 0}
+                                                                 {:title  "Nov"
+                                                                  :amount 0}
+                                                                 {:title  "Dez"
+                                                                  :amount 0}]
     (provided
       (db.fixed/search-expense-with {:active true} ..db..) => []
       (db.fixed/search-expense-with {:active false} ..db..) => [{:title        "Rent"

@@ -18,7 +18,7 @@
   (time-format/parse date))
 
 (defn last-day-of-the-month [year month]
-  (time/last-day-of-the-month year month))
+  (time/last-day-of-the-month (Integer/parseInt year) month))
 
 (defn first-day-of-the-month [year month]
-  (time/first-day-of-the-month year month))
+  (time/first-day-of-the-month (Integer/parseInt year) month))

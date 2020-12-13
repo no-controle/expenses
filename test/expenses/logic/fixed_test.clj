@@ -33,8 +33,8 @@
 
 (facts "Getting data for given month and year"
   (fact "should return total adding current active expenses for month"
-    (logic.fixed/data-for-month-year {:month "Fev" :month-value 2} 2020 active-expenses inactive-expenses) => {:title "Fev" :amount 1500})
+    (logic.fixed/data-for-month-year {:month "Fev" :month-value 2} "2020" active-expenses inactive-expenses) => {:title "Fev" :amount 1500})
   (fact "should return total adding current active expenses and Inactive expenses for month"
-    (logic.fixed/data-for-month-year {:month "Abr" :month-value 4} 2020 active-expenses inactive-expenses) => {:title "Abr" :amount 2400})
+    (logic.fixed/data-for-month-year {:month "Abr" :month-value 4} "2020" active-expenses inactive-expenses) => {:title "Abr" :amount 2400})
   (fact "should return total adding current Inactive expenses for month"
-    (logic.fixed/data-for-month-year {:month "Out" :month-value 10} 2020 active-expenses inactive-expenses) => {:title "Out" :amount 920}))
+    (logic.fixed/data-for-month-year {:month "Out" :month-value 10} "2020" active-expenses inactive-expenses) => {:title "Out" :amount 920}))
