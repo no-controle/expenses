@@ -39,8 +39,8 @@
   (fact "should return total for given month and year when there is recurrent and regular revenues"
     (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 1000}
     (provided
-      (db.revenue/search-non-recurrent-revenue-for-period 2020 10 ..db..) => [{:title  "Video clip"
-                                                                               :amount 500}]
+      (db.revenue/search-non-recurrent-revenue-for-period "2020-10" ..db..) => [{:title  "Video clip"
+                                                                                 :amount 500}]
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    true} ..db..) => [{:title  "Salary"
                                                                      :amount 500}]))
@@ -48,7 +48,7 @@
   (fact "should return total for given month and year when there is only regular revenues"
     (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 500}
     (provided
-      (db.revenue/search-non-recurrent-revenue-for-period 2020 10 ..db..) => []
+      (db.revenue/search-non-recurrent-revenue-for-period "2020-10" ..db..) => []
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    true} ..db..) => [{:title  "Salary"
                                                                      :amount 500}]))
@@ -56,7 +56,7 @@
   (fact "should return total for given month and year when there is no revenue"
     (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 0}
     (provided
-      (db.revenue/search-non-recurrent-revenue-for-period 2020 10 ..db..) => []
+      (db.revenue/search-non-recurrent-revenue-for-period "2020-10" ..db..) => []
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    true} ..db..) => [])))
 

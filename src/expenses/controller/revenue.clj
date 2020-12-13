@@ -15,7 +15,7 @@
     {:message "Revenue deleted"}))
 
 (defn total-revenue-for-period [year month db]
-  (let [incomes-on-period (db.revenue/search-non-recurrent-revenue-for-period year month db)
+  (let [incomes-on-period (db.revenue/search-non-recurrent-revenue-for-period (str year "-" month) db)
         recurrent-income (db.revenue/search-revenue-with {:recurrent true
                                                           :active    true} db)]
     (->> (concat incomes-on-period recurrent-income)
