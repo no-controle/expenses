@@ -21,9 +21,7 @@
         {:post http-in/create-purchase}
         ["/:id" {:delete http-in/refund-purchase}]
         ["/summary" {:get http-in/get-purchases-summary}]
-        ["/batch" {:post http-in/create-purchases-batch}]
-        ["/variable" {:get http-in/variable-purchases-for-period}]
-        ["/other" {:get http-in/other-purchases-for-period}]]
+        ["/batch" {:post http-in/create-purchases-batch}]]
 
        ["/fixed" {:post http-in/create-fixed-expense}
         ["/:id" {:delete http-in/delete-fixed-expense}]]]
@@ -31,4 +29,5 @@
       ["/revenue" {:post http-in/create-revenue}
        ["/:id" {:delete http-in/delete-revenue}]]
 
-      ["/monthly" {:get http-in/monthly-data-for-period}]]]])
+      ["/monthly" {:get http-in/monthly-data-for-period}]
+      ["/general" {:get http-in/general-data-for-period}]]]])

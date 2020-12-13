@@ -3,6 +3,7 @@
             [expenses.controller.purchases :as controller.purchases]
             [expenses.controller.revenue :as controller.revenue]
             [expenses.controller.fixed :as controller.fixed]
+            [expenses.controller.general :as controller.general]
             [expenses.controller.monthly :as controller.monthly]))
 
 (defn create-fixed-expense
@@ -67,13 +68,7 @@
   {:status 200
    :body (controller.monthly/data-for-period (:year query-params) (:month query-params) db)})
 
-
-(defn variable-purchases-for-period
+(defn general-data-for-period
   [{:keys [query-params db]}]
   {:status 200
-   :body (controller.purchases/variable-for-period (:year query-params) (:month query-params) db)})
-
-(defn other-purchases-for-period
-  [{:keys [query-params db]}]
-  {:status 200
-   :body (controller.purchases/other-for-period (:year query-params) (:month query-params) db)})
+     :body (controller.general/data-for-period (:year query-params) db)})
