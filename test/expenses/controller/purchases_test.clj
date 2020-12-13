@@ -3,28 +3,7 @@
             [expenses.controller.purchases :as controller.purchases]
             [expenses.db.purchases :as db.purchases]))
 
-(def purchase-list [{:title    "Grocery Store"
-                     :date     "2020-12-05"
-                     :amount   50
-                     :period   "2020-12"
-                     :category "Supermarket"}
-                    {:title    "The Fun Fun Fun"
-                     :date     "2020-12-09"
-                     :amount   300
-                     :period   "2020-12"
-                     :category "Entertainment"}
-                    {:title    "The med place"
-                     :date     "2020-12-15"
-                     :amount   14
-                     :period   "2020-12"
-                     :category "Health"}
-                    {:title    "Grocery Store"
-                     :date     "2020-12-08"
-                     :amount   80
-                     :period   "2020-12"
-                     :category "Supermarket"}])
-
-(facts "create a new purchasea"
+(facts "create a new purchase"
   (fact "should return purchase created"
     (controller.purchases/create-purchase {:title      "Target"
                                            :amount     240
@@ -36,6 +15,7 @@
     (provided
       (db.purchases/search-purchase-with {:title  "Target"
                                           :amount 240
+                                          :date   "2020-10-20"
                                           :source "Credit Card"} ..db..) => nil
       (db.purchases/create-purchase {:title      "Target"
                                      :amount     240
@@ -56,18 +36,8 @@
     (provided
       (db.purchases/search-purchase-with {:title  "Target"
                                           :amount 240
+                                          :date   "2020-10-20"
                                           :source "Credit Card"} ..db..) => ..existent-purchase..)))
-
-(facts "create a purchases list"
-  (fact "should return purchases created"
-    (controller.purchases/create-purchases-list ..purchases-list.. ..db..) => {:message "Processo finalizou"}
-    (provided
-      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => ..mongo-success-result..))
-
-  (fact "should throw"
-    (controller.purchases/create-purchases-list ..purchases-list.. ..db..) => (throws Exception)
-    (provided
-      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => (throw (Exception.)))))
 
 (facts "Variable purchases for given year and month"
   (fact "should return list of variable purchases"
@@ -218,3 +188,16 @@
                                                                                                                                                   :bill-year  "2020"
                                                                                                                                                   :bill-month "05"
                                                                                                                                                   :category   "Restaurant"}])))
+
+(def csv-purchases "")
+
+(facts "create a purchases list from csv"
+  (fact "should return purchases created"
+    (controller.purchases/create-purchases-from-csv ..purchases-list.. ..db..) => {:message "Processo finalizou"}
+    (provided
+      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => ..mongo-success-result..))
+
+  (fact "should throw"
+    (controller.purchases/create-purchases-from-csv ..purchases-list.. ..db..) => (throws Exception)
+    (provided
+      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => (throw (Exception.)))))

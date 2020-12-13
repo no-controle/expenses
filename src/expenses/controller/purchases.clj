@@ -9,6 +9,7 @@
 (defn purchase-search-params [purchase]
   {:title  (:title purchase)
    :amount (:amount purchase)
+   :date   (:date purchase)
    :source (:source purchase)})
 
 (defn create-purchase
@@ -37,7 +38,7 @@
   (let [purchases (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-year year :refunded false} db)]
     (map #(logic.purchases/data-for-month % purchases) months)))
 
-(defn create-purchases-list
+(defn create-purchases-from-csv
   [purchases-list db]
   (db.purchases/create-purchases-list purchases-list db)
   {:message "Processo finalizou"})
