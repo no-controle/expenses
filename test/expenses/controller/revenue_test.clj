@@ -39,8 +39,8 @@
   (fact "should return total for given month and year when there is recurrent and regular revenues"
     (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 1000}
     (provided
-      (db.revenue/search-non-recurrent-revenue-for-period "2020-10" ..db..) => [{:title  "Video clip"
-                                                                                 :amount 500}]
+      (db.revenue/search-revenue-with {:recurrent false :period "2020-10"} ..db..) => [{:title  "Video clip"
+                                                                                        :amount 500}]
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    true} ..db..) => [{:title  "Salary"
                                                                      :amount 500}]))
@@ -48,7 +48,7 @@
   (fact "should return total for given month and year when there is only regular revenues"
     (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 500}
     (provided
-      (db.revenue/search-non-recurrent-revenue-for-period "2020-10" ..db..) => []
+      (db.revenue/search-revenue-with {:recurrent false :period "2020-10"} ..db..) => []
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    true} ..db..) => [{:title  "Salary"
                                                                      :amount 500}]))
@@ -56,7 +56,7 @@
   (fact "should return total for given month and year when there is no revenue"
     (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 0}
     (provided
-      (db.revenue/search-non-recurrent-revenue-for-period "2020-10" ..db..) => []
+      (db.revenue/search-revenue-with {:recurrent false :period "2020-10"} ..db..) => []
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    true} ..db..) => [])))
 
@@ -97,7 +97,7 @@
                                                                      :updated-at "2020-03-01"}]
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    false} ..db..) => []
-      (db.revenue/search-non-recurrent-revenue-for-period 2020 ..db..) => []))
+      (db.revenue/search-revenue-with {:recurrent false :period 2020} ..db..) => []))
 
   (fact "Should return inactive recurrent revenue until updated date"
     (controller.revenue/revenue-for-year 2020 ..db..) => [{:title  "Jan"
@@ -135,7 +135,7 @@
                                                                       :recurrent  true
                                                                       :created-at "2020-03-01"
                                                                       :updated-at "2020-03-01"}]
-      (db.revenue/search-non-recurrent-revenue-for-period 2020 ..db..) => []))
+      (db.revenue/search-revenue-with {:recurrent false :period 2020} ..db..) => []))
 
   (fact "Should return non-recurrent revenues on created dates"
     (controller.revenue/revenue-for-year 2020 ..db..) => [{:title  "Jan"
@@ -167,23 +167,23 @@
                                        :active    true} ..db..) => []
       (db.revenue/search-revenue-with {:recurrent true
                                        :active    false} ..db..) => []
-      (db.revenue/search-non-recurrent-revenue-for-period 2020 ..db..) => [{:_id        ..uuid..
-                                                                            :title      "Jobz 1"
-                                                                            :amount     3500
-                                                                            :created-at "2020-03-01"
-                                                                            :updated-at "2020-03-01"}
-                                                                           {:_id        ..uuid2..
-                                                                            :title      "Jobz 2"
-                                                                            :amount     4700
-                                                                            :created-at "2020-06-01"
-                                                                            :updated-at "2020-06-01"}
-                                                                           {:_id        ..uuid3..
-                                                                            :title      "Jobz 3"
-                                                                            :amount     8700
-                                                                            :created-at "2020-09-01"
-                                                                            :updated-at "2020-09-01"}
-                                                                           {:_id        ..uuid4..
-                                                                            :title      "Jobz 4"
-                                                                            :amount     1300
-                                                                            :created-at "2020-09-30"
-                                                                            :updated-at "2020-09-30"}])))
+      (db.revenue/search-revenue-with {:recurrent false :period 2020} ..db..) => [{:_id        ..uuid..
+                                                                                   :title      "Jobz 1"
+                                                                                   :amount     3500
+                                                                                   :created-at "2020-03-01"
+                                                                                   :updated-at "2020-03-01"}
+                                                                                  {:_id        ..uuid2..
+                                                                                   :title      "Jobz 2"
+                                                                                   :amount     4700
+                                                                                   :created-at "2020-06-01"
+                                                                                   :updated-at "2020-06-01"}
+                                                                                  {:_id        ..uuid3..
+                                                                                   :title      "Jobz 3"
+                                                                                   :amount     8700
+                                                                                   :created-at "2020-09-01"
+                                                                                   :updated-at "2020-09-01"}
+                                                                                  {:_id        ..uuid4..
+                                                                                   :title      "Jobz 4"
+                                                                                   :amount     1300
+                                                                                   :created-at "2020-09-30"
+                                                                                   :updated-at "2020-09-30"}])))

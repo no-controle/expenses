@@ -20,10 +20,5 @@
        (mc/update-by-id db revenue-collection id)))
 
 (defn search-revenue-with [search-parameters db]
-  (log/info :msg (str "Searching revenue with parameters: " search-parameters))
-  (mc/find-maps db revenue-collection search-parameters))
-
-(defn search-non-recurrent-revenue-for-period [period db]
-  (log/info :msg (str "Searching revenue for period: " period))
-  (mc/find-maps db revenue-collection {:created-at {$regex (str period ".*")}
-                                       :recurrent  {$ne true}}))
+  (log/info :msg (str "Searching revenue with parameters: " (db-helper/format-search-parameters search-parameters)))
+  (mc/find-maps db revenue-collection (db-helper/format-search-parameters search-parameters)))

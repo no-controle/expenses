@@ -1,5 +1,6 @@
 (ns expenses.logic.db-helper
   (:require [monger.util :as mu]
+            [monger.operators :refer :all]
             [clj-time.local :as time-local]
             [clj-time.format :as time-format]))
 
@@ -16,3 +17,10 @@
 
 (defn add-updated-at [expense] (-> expense
                                    (assoc :updated-at (current-date))))
+
+(defn format-search-parameters [parameters]
+  (-> parameters
+      (cond-> (not (nil? (:period parameters))) (assoc :updated-at {$regex (str (:period parameters) ".*")})
+              (false? (:recurrent parameters)) (assoc :recurrent  {$ne true})
+              (false? (:active parameters)) (assoc :active  {$ne true}))
+      (dissoc :period)))

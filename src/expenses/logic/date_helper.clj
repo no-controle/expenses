@@ -2,6 +2,10 @@
   (:require [clj-time.core :as time]
             [clj-time.format :as time-format]))
 
+(def months [{:month "Jan" :month-value 1} {:month "Fev" :month-value 2} {:month "Mar" :month-value 3} {:month "Abr" :month-value 4}
+             {:month "Mai" :month-value 5} {:month "Jun" :month-value 6} {:month "Jul" :month-value 7} {:month "Ago" :month-value 8}
+             {:month "Set" :month-value 9} {:month "Out" :month-value 10} {:month "Nov" :month-value 11} {:month "Dez" :month-value 12}])
+
 (defn before-or-equal? [first-date second-date]
   (or (time/before? first-date second-date)
       (time/equal? first-date second-date)))
