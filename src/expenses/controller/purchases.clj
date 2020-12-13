@@ -1,5 +1,7 @@
 (ns expenses.controller.purchases
-  (:require [expenses.db.purchases :as db.purchases])
+  (:require [expenses.db.purchases :as db.purchases]
+            [expenses.logic.date-helper :refer [months]]
+            [expenses.logic.purchases :as logic.purchases])
   (:import (javax.management InstanceAlreadyExistsException)))
 
 (def variable-categories ["Supermercado", "Transporte", "Saude"])
@@ -57,6 +59,13 @@
 (defn variable-for-period [year month db]
   (db.purchases/search-purchase-in-category-with variable-categories {:bill-month month :bill-year year} db))
 
-
 (defn other-for-period [year month db]
   (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-month month :bill-year year} db))
+
+(defn variable-purchases-for-year [year db]
+  (let [purchases (db.purchases/search-purchase-in-category-with variable-categories {:bill-year year :refunded false} db)]
+    (map #(logic.purchases/data-for-month % purchases) months)))
+
+(defn extra-purchases-for-year [year db]
+  (let [purchases (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-year year :refunded false} db)]
+    (map #(logic.purchases/data-for-month % purchases) months)))

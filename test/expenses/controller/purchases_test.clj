@@ -201,3 +201,106 @@
                                                                      {:title    "other-03"
                                                                       :amount   200
                                                                       :category "Lazer"}])))
+
+(facts "Getting purchases for every month on given year"
+  (fact "Should return variable purchases for every month"
+    (controller.purchases/variable-purchases-for-year 2020 ..db..) => [{:title  "Jan"
+                                                                        :amount 0}
+                                                                       {:title  "Fev"
+                                                                        :amount 0}
+                                                                       {:title  "Mar"
+                                                                        :amount 350}
+                                                                       {:title  "Abr"
+                                                                        :amount 14}
+                                                                       {:title  "Mai"
+                                                                        :amount 80}
+                                                                       {:title  "Jun"
+                                                                        :amount 0}
+                                                                       {:title  "Jul"
+                                                                        :amount 0}
+                                                                       {:title  "Ago"
+                                                                        :amount 0}
+                                                                       {:title  "Set"
+                                                                        :amount 0}
+                                                                       {:title  "Out"
+                                                                        :amount 0}
+                                                                       {:title  "Nov"
+                                                                        :amount 0}
+                                                                       {:title  "Dez"
+                                                                        :amount 0}]
+    (provided
+      (db.purchases/search-purchase-in-category-with ["Supermercado", "Transporte", "Saude"] {:bill-year 2020 :refunded false} ..db..) => [{:title    "Grocery Store"
+                                                                                                                                            :date     "2020-12-05"
+                                                                                                                                            :amount   50
+                                                                                                                                            :bill-year "2020"
+                                                                                                                                            :bill-month "03"
+                                                                                                                                            :category "Supermarket"}
+                                                                                                                                           {:title    "The Fun Fun Fun"
+                                                                                                                                            :date     "2020-12-09"
+                                                                                                                                            :amount   300
+                                                                                                                                            :bill-year "2020"
+                                                                                                                                            :bill-month "03"
+                                                                                                                                            :category "Entertainment"}
+                                                                                                                                           {:title    "The med place"
+                                                                                                                                            :date     "2020-12-15"
+                                                                                                                                            :amount   14
+                                                                                                                                            :bill-year "2020"
+                                                                                                                                            :bill-month "04"
+                                                                                                                                            :category "Health"}
+                                                                                                                                           {:title    "Grocery Store"
+                                                                                                                                            :date     "2020-12-08"
+                                                                                                                                            :amount   80
+                                                                                                                                            :bill-year "2020"
+                                                                                                                                            :bill-month "05"
+                                                                                                                                            :category "Supermarket"}]))
+
+  (fact "Should return extra purchases for every month"
+    (controller.purchases/extra-purchases-for-year 2020 ..db..) => [{:title  "Jan"
+                                                                     :amount 0}
+                                                                    {:title  "Fev"
+                                                                     :amount 0}
+                                                                    {:title  "Mar"
+                                                                     :amount 350}
+                                                                    {:title  "Abr"
+                                                                     :amount 14}
+                                                                    {:title  "Mai"
+                                                                     :amount 80}
+                                                                    {:title  "Jun"
+                                                                     :amount 0}
+                                                                    {:title  "Jul"
+                                                                     :amount 0}
+                                                                    {:title  "Ago"
+                                                                     :amount 0}
+                                                                    {:title  "Set"
+                                                                     :amount 0}
+                                                                    {:title  "Out"
+                                                                     :amount 0}
+                                                                    {:title  "Nov"
+                                                                     :amount 0}
+                                                                    {:title  "Dez"
+                                                                     :amount 0}]
+    (provided
+      (db.purchases/search-purchase-not-in-category-with ["Supermercado", "Transporte", "Saude"] {:bill-year 2020 :refunded false} ..db..) => [{:title    "Grocery Store"
+                                                                                                                                                :date     "2020-12-05"
+                                                                                                                                                :amount   50
+                                                                                                                                                :bill-year "2020"
+                                                                                                                                                :bill-month "03"
+                                                                                                                                                :category "Restaurant"}
+                                                                                                                                               {:title    "The Fun Fun Fun"
+                                                                                                                                                :date     "2020-12-09"
+                                                                                                                                                :amount   300
+                                                                                                                                                :bill-year "2020"
+                                                                                                                                                :bill-month "03"
+                                                                                                                                                :category "Electronic"}
+                                                                                                                                               {:title    "The med place"
+                                                                                                                                                :date     "2020-12-15"
+                                                                                                                                                :amount   14
+                                                                                                                                                :bill-year "2020"
+                                                                                                                                                :bill-month "04"
+                                                                                                                                                :category "Restaurant"}
+                                                                                                                                               {:title    "Grocery Store"
+                                                                                                                                                :date     "2020-12-08"
+                                                                                                                                                :amount   80
+                                                                                                                                                :bill-year "2020"
+                                                                                                                                                :bill-month "05"
+                                                                                                                                                :category "Restaurant"}])))
