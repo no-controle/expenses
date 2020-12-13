@@ -32,11 +32,6 @@
                :id
                (controller.revenue/delete-revenue db))})
 
-(defn get-purchases
-  [{:keys [query-params db]}]
-  {:status 200
-   :body   (controller.purchases/get-by-period (:year query-params) (:month query-params) db)})
-
 (defn create-purchase
   [{:keys [json-params db]}]
   {:status 200
@@ -50,18 +45,6 @@
    :body (-> path-params
              :id
              (controller.purchases/refund-purchase db))})
-
-(defn get-purchases-summary
-  [{:keys [query-params db]}]
-  {:status 200
-   :body   (controller.purchases/get-summary query-params db)})
-
-(defn create-purchases-batch
-  [{:keys [json-params db]}]
-  {:status 200
-   :body   (-> json-params
-               adapter.purchases/http-in->purchases-list
-               (controller.purchases/create-purchases-list db))})
 
 (defn monthly-data-for-period
   [{:keys [query-params db]}]

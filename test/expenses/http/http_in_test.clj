@@ -22,11 +22,3 @@
     (provided
       (adapter.purchases/http-in->purchase ..new-purchase..) => ..valid-purchase..
       (controller.purchases/create-purchase ..valid-purchase.. ..db..) => (throw (Exception.)))))
-
-(facts "create purchases by batch"
-  (fact "should return 200 with created purchases list"
-    (http-in/create-purchases-batch {:db ..db.. :json-params ..purchases-list..}) => {:status 200
-                                                                                      :body {:message "Purchases list created"}}
-    (provided
-      (adapter.purchases/http-in->purchases-list ..purchases-list..) => ..valid-list..
-      (controller.purchases/create-purchases-list ..valid-list.. ..db..) => {:message "Purchases list created"})))

@@ -17,11 +17,8 @@
       ["/expenses"
 
        ["/purchase"
-        {:get http-in/get-purchases}
         {:post http-in/create-purchase}
-        ["/:id" {:delete http-in/refund-purchase}]
-        ["/summary" {:get http-in/get-purchases-summary}]
-        ["/batch" {:post http-in/create-purchases-batch}]]
+        ["/:id" {:delete http-in/refund-purchase}]]
 
        ["/fixed" {:post http-in/create-fixed-expense}
         ["/:id" {:delete http-in/delete-fixed-expense}]]]
