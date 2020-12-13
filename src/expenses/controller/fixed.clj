@@ -1,5 +1,7 @@
 (ns expenses.controller.fixed
-  (:require [expenses.db.fixed :as db.fixed])
+  (:require [expenses.db.fixed :as db.fixed]
+            [expenses.logic.date-helper :refer [months]]
+            [expenses.logic.fixed :as logic.fixed])
   (:import (javax.management InstanceAlreadyExistsException)))
 
 (defn create-fixed
@@ -17,3 +19,8 @@
 
 (defn active-fixed-expenses [db]
   (db.fixed/search-expense-with {:active true} db))
+
+(defn fixed-expenses-for-year [year db]
+  (let [active-expenses (db.fixed/search-expense-with {:active true} db)
+        inactive-expenses (db.fixed/search-expense-with {:active false} db)]
+    (map #(logic.fixed/data-for-month-year % year active-expenses inactive-expenses) months)))
