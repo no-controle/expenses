@@ -23,7 +23,12 @@
   (log/info :msg (str "Searching revenue with parameters: " search-parameters))
   (mc/find-maps db revenue-collection search-parameters))
 
-(defn search-revenue-for-period [year month db]
-  (log/info :msg (str "Searching revenue for period: " year "-" month))
-  (mc/find-maps db revenue-collection {:created-at {$regex (str year "-" month ".*")}
-                                       :recurrent  {$ne true}}))
+(defn search-non-recurrent-revenue-for-period
+  ([year month db]
+   (log/info :msg (str "Searching revenue for period: " year "-" month))
+   (mc/find-maps db revenue-collection {:created-at {$regex (str year "-" month ".*")}
+                                        :recurrent  {$ne true}}))
+  ([period db]
+   (log/info :msg (str "Searching revenue for period: " period))
+   (mc/find-maps db revenue-collection {:created-at {$regex (str period ".*")}
+                                        :recurrent  {$ne true}})))

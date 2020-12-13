@@ -32,7 +32,7 @@
           revenues))
 
 (defn data-for-month-year [month year recurrent-active recurrent-inactive other-revenue]
-  {:title (:month month)
-   :value (+ (total-amount-created-before-for year (:month-value month) recurrent-active)
-             (total-amount-created-after-for year (:month-value month) recurrent-inactive)
-             (total-amount-created-on-for year (:month-value month) other-revenue))})
+  {:title  (:month month)
+   :amount (+ (total-amount-created-before-for year (:month-value month) recurrent-active)
+              (total-amount-created-after-for year (:month-value month) recurrent-inactive)
+              (total-amount-created-on-for year (:month-value month) other-revenue))})
