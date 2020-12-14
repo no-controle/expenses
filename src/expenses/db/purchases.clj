@@ -9,12 +9,6 @@
 (defn create-id [title date amount]
   (str (hash [title date amount])))
 
-(defn add-id-to-purchase
-  [purchase]
-  (assoc purchase :_id (create-id (:title purchase)
-                                  (:date purchase)
-                                  (:amount purchase))))
-
 (defn create-purchase
   [purchase db]
   (->> purchase
@@ -29,13 +23,14 @@
 
 (defn create-purchases-list
   [purchases-list db]
-  (let [purchases-with-id (->> purchases-list
-                               (map add-id-to-purchase))]
-    (doseq [purchase purchases-with-id]
-      (try
-        (create-purchase purchase db)
-        (catch Exception ex
-          (log/error :exception ex))))))
+  (try
+    (->> purchases-list
+         (map #(->> %
+                    db-helper/add-id-and-created-at
+                    db-helper/add-updated-at))
+      (mc/insert-batch db purchases-collection))
+    (catch Exception ex
+      (log/error :exception ex))))
 
 (defn get-by-period
   [period db]

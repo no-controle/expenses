@@ -1,5 +1,6 @@
 (ns expenses.controller.purchases
   (:require [expenses.db.purchases :as db.purchases]
+            [expenses.logic.csv-helper :as csv-helper]
             [expenses.logic.date-helper :refer [months]]
             [expenses.logic.purchases :as logic.purchases])
   (:import (javax.management InstanceAlreadyExistsException)))
@@ -39,6 +40,7 @@
     (map #(logic.purchases/data-for-month % purchases) months)))
 
 (defn create-purchases-from-csv
-  [purchases-list db]
-  (db.purchases/create-purchases-list purchases-list db)
-  {:message "Processo finalizou"})
+  [csv-purchases db]
+  (let [purchases-list (csv-helper/parse-csv csv-purchases)]
+    (db.purchases/create-purchases-list purchases-list db)
+    {:message "Processo finalizou"}))

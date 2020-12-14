@@ -40,19 +40,19 @@
                                         :amount 50}
                                        {:title  "title 2"
                                         :date   "2020-01-02"
-                                        :amount 100}] ..db..) => nil
+                                        :amount 100}] ..db..) => ..success..
   (provided
     (db-helper/generate-uuid) => ..uuid..
     (db-helper/current-date) => ..today..
-    (mc/insert-and-return ..db.. "purchases" {:_id        ..uuid..
-                                              :title      "title"
-                                              :date       "2020-01-01"
-                                              :created-at ..today..
-                                              :updated-at ..today..
-                                              :amount     50}) => ..inserted-input1..
-    (mc/insert-and-return ..db.. "purchases" {:title      "title 2"
-                                              :_id        ..uuid..
-                                              :date       "2020-01-02"
-                                              :created-at ..today..
-                                              :updated-at ..today..
-                                              :amount     100}) => ..inserted-input2..))
+    (mc/insert-batch ..db.. "purchases" [{:_id        ..uuid..
+                                          :title      "title"
+                                          :date       "2020-01-01"
+                                          :created-at ..today..
+                                          :updated-at ..today..
+                                          :amount     50}
+                                         {:title      "title 2"
+                                          :_id        ..uuid..
+                                          :date       "2020-01-02"
+                                          :created-at ..today..
+                                          :updated-at ..today..
+                                          :amount     100}]) => ..success..))
