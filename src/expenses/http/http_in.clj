@@ -39,6 +39,13 @@
                adapter.purchases/http-in->purchase
                (controller.purchases/create-purchase db))})
 
+(defn purchases-from-csv
+  [{:keys [json-params db]}]
+  {:status 200
+   :body   (-> json-params
+               adapter.purchases/http-in->purchases-list
+               (controller.purchases/create-purchases-from-csv db))})
+
 (defn refund-purchase
   [{:keys [path-params db]}]
   {:status 200

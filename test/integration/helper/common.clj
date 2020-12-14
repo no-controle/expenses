@@ -53,3 +53,12 @@
     (-> response
         :body
         (json/read-str :key-fn keyword))))
+
+(defn do-post-request-with-text-body [url body]
+  (let [response (response-for service
+                               :post url
+                               :headers {"Content-Type" "text/plain"}
+                               :body body)]
+    (-> response
+        :body
+        (json/read-str :key-fn keyword))))

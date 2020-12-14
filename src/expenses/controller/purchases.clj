@@ -40,7 +40,6 @@
     (map #(logic.purchases/data-for-month % purchases) months)))
 
 (defn create-purchases-from-csv
-  [csv-purchases db]
-  (let [purchases-list (csv-helper/parse-csv csv-purchases)]
-    (db.purchases/create-purchases-list purchases-list db)
-    {:message "Processo finalizou"}))
+  [purchases-list db]
+  (db.purchases/create-purchases-list purchases-list db)
+  {:message "Processo finalizou"})

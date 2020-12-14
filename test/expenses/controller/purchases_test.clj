@@ -192,13 +192,11 @@
 
 (facts "create a purchases list from csv"
   (fact "should return purchases created"
-    (controller.purchases/create-purchases-from-csv ..csv-purchases.. ..db..) => {:message "Processo finalizou"}
+    (controller.purchases/create-purchases-from-csv ..purchases-list.. ..db..) => {:message "Processo finalizou"}
     (provided
-      (csv-helper/parse-csv ..csv-purchases..) => ..purchases-list..
       (db.purchases/create-purchases-list ..purchases-list.. ..db..) => ..mongo-success-result..))
 
   (fact "should throw"
-    (controller.purchases/create-purchases-from-csv ..csv-purchases.. ..db..) => (throws Exception)
+    (controller.purchases/create-purchases-from-csv ..purchases-list.. ..db..) => (throws Exception)
     (provided
-      (csv-helper/parse-csv ..csv-purchases..) => ..purchases-list..
       (db.purchases/create-purchases-list ..purchases-list.. ..db..) => (throw (Exception.)))))

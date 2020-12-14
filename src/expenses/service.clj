@@ -27,4 +27,5 @@
        ["/:id" {:delete http-in/delete-revenue}]]
 
       ["/monthly" {:get http-in/monthly-data-for-period}]
-      ["/general" {:get http-in/general-data-for-period}]]]])
+      ["/general" {:get http-in/general-data-for-period}]
+      ["/purchases-from-csv" {:post http-in/purchases-from-csv}]]]])

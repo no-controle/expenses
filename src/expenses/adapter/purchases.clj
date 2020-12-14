@@ -1,4 +1,5 @@
-(ns expenses.adapter.purchases)
+(ns expenses.adapter.purchases
+  (:require [expenses.logic.csv-helper :as csv-helper]))
 
 (defn not-null-or-throw [document field]
   (if (nil? (field document))
@@ -16,5 +17,7 @@
    :bill-year  (not-null-or-throw purchase :bill-year)})
 
 (defn http-in->purchases-list
-  [purchases-list]
-  (map http-in->purchase purchases-list))
+  [csv]
+  (-> csv
+      :csv
+      csv-helper/parse-csv))
