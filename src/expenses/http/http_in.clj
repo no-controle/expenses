@@ -44,7 +44,7 @@
   {:status 200
    :body   (-> json-params
                adapter.purchases/http-in->purchases-list
-               (controller.purchases/create-purchases-from-csv db))})
+               (controller.purchases/create-purchases-list db))})
 
 (defn refund-purchase
   [{:keys [path-params db]}]

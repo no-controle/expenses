@@ -39,7 +39,9 @@
   (let [purchases (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-year year :refunded false} db)]
     (map #(logic.purchases/data-for-month % purchases) months)))
 
-(defn create-purchases-from-csv
+(defn create-purchases-list
   [purchases-list db]
-  (db.purchases/create-purchases-list purchases-list db)
+  (-> (->> purchases-list
+           (map #(if (neg? (:amount %)) (assoc % :refunded true :amount (* -1 (:amount %))) %)))
+      (db.purchases/create-purchases-list db))
   {:message "Processo finalizou"})

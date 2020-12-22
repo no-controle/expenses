@@ -191,12 +191,22 @@
                                                                                                                                                   :category   "Restaurant"}])))
 
 (facts "create a purchases list from csv"
-  (fact "should return purchases created"
-    (controller.purchases/create-purchases-from-csv ..purchases-list.. ..db..) => {:message "Processo finalizou"}
+  (fact "should add refunded true when there is negative items on the list"
+    (controller.purchases/create-purchases-list [{:amount -10} {:amount -15} {:amount 20}] ..db..) => {:message "Processo finalizou"}
     (provided
-      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => ..mongo-success-result..))
+      (db.purchases/create-purchases-list [{:amount 10 :refunded true}
+                                           {:amount 15 :refunded true}
+                                           {:amount 20}] ..db..) => ..mongo-success-result..))
+  (fact "should return purchases created"
+    (controller.purchases/create-purchases-list [{:amount -10} {:amount -15} {:amount 20}] ..db..) => {:message "Processo finalizou"}
+    (provided
+      (db.purchases/create-purchases-list [{:amount 10 :refunded true}
+                                           {:amount 15 :refunded true}
+                                           {:amount 20}] ..db..) => ..mongo-success-result..))
 
   (fact "should throw"
-    (controller.purchases/create-purchases-from-csv ..purchases-list.. ..db..) => (throws Exception)
+    (controller.purchases/create-purchases-list [{:amount -10} {:amount -15} {:amount 20}] ..db..) => (throws Exception)
     (provided
-      (db.purchases/create-purchases-list ..purchases-list.. ..db..) => (throw (Exception.)))))
+      (db.purchases/create-purchases-list [{:amount 10 :refunded true}
+                                           {:amount 15 :refunded true}
+                                           {:amount 20}] ..db..) => (throw (Exception.)))))
