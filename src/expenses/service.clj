@@ -1,7 +1,8 @@
 (ns expenses.service
   (:require [expenses.http.http-in :as http-in]
             [expenses.interceptors :as interceptors]
-            [io.pedestal.http.body-params :as body-params]))
+            [io.pedestal.http.body-params :as body-params]
+            [io.pedestal.http.cors :as cors]))
 
 (defn home-page
   [_]
@@ -11,6 +12,7 @@
 (def routes
   `[[["/" {:get home-page}
       ^:interceptors [(body-params/body-params)
+                      (cors/allow-origin ["http://localhost:3000"])
                       interceptors/db-interceptor
                       interceptors/to-json-response-interceptor
                       interceptors/service-error-handler]

@@ -1,11 +1,10 @@
 (ns expenses.controller.purchases
   (:require [expenses.db.purchases :as db.purchases]
-            [expenses.logic.csv-helper :as csv-helper]
             [expenses.logic.date-helper :refer [months]]
             [expenses.logic.purchases :as logic.purchases])
   (:import (javax.management InstanceAlreadyExistsException)))
 
-(def variable-categories ["Supermercado", "Transporte", "Saude"])
+(def variable-categories ["Supermercado", "Supermarket" "Transporte", "Transportation", "Saúde", "Saude", "Health"])
 
 (defn purchase-search-params [purchase]
   {:title  (:title purchase)
@@ -39,9 +38,16 @@
   (let [purchases (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-year year :refunded false} db)]
     (map #(logic.purchases/data-for-month % purchases) months)))
 
+(defn map-refunded [purchase]
+  (if (neg? (:amount purchase))
+    (assoc purchase
+      :refunded true
+      :amount (* -1 (:amount purchase)))
+    purchase))
+
 (defn create-purchases-list
   [purchases-list db]
   (-> (->> purchases-list
-           (map #(if (neg? (:amount %)) (assoc % :refunded true :amount (* -1 (:amount %))) %)))
+           (map #(map-refunded %)))
       (db.purchases/create-purchases-list db))
   {:message "Processo finalizou"})

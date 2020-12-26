@@ -56,3 +56,20 @@
                                           :created-at ..today..
                                           :updated-at ..today..
                                           :amount     100}]) => ..success..))
+
+(fact "Searching given category and period should return purchases"
+  (db.purchases/search-purchase-in-category-with ["house" "trip" "school"] {:bill-month "10" :bill-year "2020"} ..db..) => ..purchases-list..
+  (provided
+    (mc/find-maps ..db.. "purchases" {:bill-month "10"
+                                      :bill-year  "2020"
+                                      :refunded   {"$ne" true}
+                                      :category   {"$regex" "house|trip|school" "$options" "i"}}) => ..purchases-list..))
+
+(fact "Searching given category and period should return purchases different from category list"
+      (db.purchases/search-purchase-not-in-category-with ["house" "trip" "school"] {:bill-month "10" :bill-year "2020"} ..db..) => ..purchases-list..
+      (provided
+        (mc/find-maps ..db.. "purchases" {:bill-month "10"
+                                          :bill-year  "2020"
+                                          :refunded   {"$ne" true}
+                                          :category   {"$not" {"$regex" "house|trip|school" "$options" "i"}}}) => ..purchases-list..))
+

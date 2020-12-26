@@ -1,8 +1,9 @@
 (ns expenses.controller.purchases-test
   (:require [midje.sweet :refer :all]
             [expenses.controller.purchases :as controller.purchases]
-            [expenses.db.purchases :as db.purchases]
-            [expenses.logic.csv-helper :as csv-helper]))
+            [expenses.db.purchases :as db.purchases]))
+
+(def variable-categories ["Supermercado", "Supermarket" "Transporte", "Transportation", "Saúde", "Saude", "Health"])
 
 (facts "create a new purchase"
   (fact "should return purchase created"
@@ -52,7 +53,7 @@
                                                                    :amount   200
                                                                    :category "Saude"}]
     (provided
-      (db.purchases/search-purchase-in-category-with ["Supermercado", "Transporte", "Saude"]
+      (db.purchases/search-purchase-in-category-with variable-categories
                                                      {:bill-month 10 :bill-year 2020}
                                                      ..db..) => [{:title    "variable-01"
                                                                   :amount   100
@@ -75,7 +76,7 @@
                                                                 :amount   200
                                                                 :category "Lazer"}]
     (provided
-      (db.purchases/search-purchase-not-in-category-with ["Supermercado", "Transporte", "Saude"]
+      (db.purchases/search-purchase-not-in-category-with variable-categories
                                                          {:bill-month 10 :bill-year 2020}
                                                          ..db..) => [{:title    "other-01"
                                                                       :amount   100
@@ -114,30 +115,30 @@
                                                                          {:title  "Dez"
                                                                           :amount 0}]
     (provided
-      (db.purchases/search-purchase-in-category-with ["Supermercado", "Transporte", "Saude"] {:bill-year "2020" :refunded false} ..db..) => [{:title      "Grocery Store"
-                                                                                                                                              :date       "2020-12-05"
-                                                                                                                                              :amount     50
-                                                                                                                                              :bill-year  "2020"
-                                                                                                                                              :bill-month "03"
-                                                                                                                                              :category   "Supermarket"}
-                                                                                                                                             {:title      "The Fun Fun Fun"
-                                                                                                                                              :date       "2020-12-09"
-                                                                                                                                              :amount     300
-                                                                                                                                              :bill-year  "2020"
-                                                                                                                                              :bill-month "03"
-                                                                                                                                              :category   "Entertainment"}
-                                                                                                                                             {:title      "The med place"
-                                                                                                                                              :date       "2020-12-15"
-                                                                                                                                              :amount     14
-                                                                                                                                              :bill-year  "2020"
-                                                                                                                                              :bill-month "04"
-                                                                                                                                              :category   "Health"}
-                                                                                                                                             {:title      "Grocery Store"
-                                                                                                                                              :date       "2020-12-08"
-                                                                                                                                              :amount     80
-                                                                                                                                              :bill-year  "2020"
-                                                                                                                                              :bill-month "05"
-                                                                                                                                              :category   "Supermarket"}]))
+      (db.purchases/search-purchase-in-category-with variable-categories {:bill-year "2020" :refunded false} ..db..) => [{:title      "Grocery Store"
+                                                                                                                          :date       "2020-12-05"
+                                                                                                                          :amount     50
+                                                                                                                          :bill-year  "2020"
+                                                                                                                          :bill-month "03"
+                                                                                                                          :category   "Supermarket"}
+                                                                                                                         {:title      "The Fun Fun Fun"
+                                                                                                                          :date       "2020-12-09"
+                                                                                                                          :amount     300
+                                                                                                                          :bill-year  "2020"
+                                                                                                                          :bill-month "03"
+                                                                                                                          :category   "Entertainment"}
+                                                                                                                         {:title      "The med place"
+                                                                                                                          :date       "2020-12-15"
+                                                                                                                          :amount     14
+                                                                                                                          :bill-year  "2020"
+                                                                                                                          :bill-month "04"
+                                                                                                                          :category   "Health"}
+                                                                                                                         {:title      "Grocery Store"
+                                                                                                                          :date       "2020-12-08"
+                                                                                                                          :amount     80
+                                                                                                                          :bill-year  "2020"
+                                                                                                                          :bill-month "05"
+                                                                                                                          :category   "Supermarket"}]))
 
   (fact "Should return extra purchases for every month"
     (controller.purchases/extra-purchases-for-year "2020" ..db..) => [{:title  "Jan"
@@ -165,48 +166,54 @@
                                                                       {:title  "Dez"
                                                                        :amount 0}]
     (provided
-      (db.purchases/search-purchase-not-in-category-with ["Supermercado", "Transporte", "Saude"] {:bill-year "2020" :refunded false} ..db..) => [{:title      "Grocery Store"
-                                                                                                                                                  :date       "2020-12-05"
-                                                                                                                                                  :amount     50
-                                                                                                                                                  :bill-year  "2020"
-                                                                                                                                                  :bill-month "03"
-                                                                                                                                                  :category   "Restaurant"}
-                                                                                                                                                 {:title      "The Fun Fun Fun"
-                                                                                                                                                  :date       "2020-12-09"
-                                                                                                                                                  :amount     300
-                                                                                                                                                  :bill-year  "2020"
-                                                                                                                                                  :bill-month "03"
-                                                                                                                                                  :category   "Electronic"}
-                                                                                                                                                 {:title      "The med place"
-                                                                                                                                                  :date       "2020-12-15"
-                                                                                                                                                  :amount     14
-                                                                                                                                                  :bill-year  "2020"
-                                                                                                                                                  :bill-month "04"
-                                                                                                                                                  :category   "Restaurant"}
-                                                                                                                                                 {:title      "Grocery Store"
-                                                                                                                                                  :date       "2020-12-08"
-                                                                                                                                                  :amount     80
-                                                                                                                                                  :bill-year  "2020"
-                                                                                                                                                  :bill-month "05"
-                                                                                                                                                  :category   "Restaurant"}])))
+      (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-year "2020" :refunded false} ..db..) => [{:title      "Grocery Store"
+                                                                                                                              :date       "2020-12-05"
+                                                                                                                              :amount     50
+                                                                                                                              :bill-year  "2020"
+                                                                                                                              :bill-month "03"
+                                                                                                                              :category   "Restaurant"}
+                                                                                                                             {:title      "The Fun Fun Fun"
+                                                                                                                              :date       "2020-12-09"
+                                                                                                                              :amount     300
+                                                                                                                              :bill-year  "2020"
+                                                                                                                              :bill-month "03"
+                                                                                                                              :category   "Electronic"}
+                                                                                                                             {:title      "The med place"
+                                                                                                                              :date       "2020-12-15"
+                                                                                                                              :amount     14
+                                                                                                                              :bill-year  "2020"
+                                                                                                                              :bill-month "04"
+                                                                                                                              :category   "Restaurant"}
+                                                                                                                             {:title      "Grocery Store"
+                                                                                                                              :date       "2020-12-08"
+                                                                                                                              :amount     80
+                                                                                                                              :bill-year  "2020"
+                                                                                                                              :bill-month "05"
+                                                                                                                              :category   "Restaurant"}])))
 
 (facts "create a purchases list from csv"
   (fact "should add refunded true when there is negative items on the list"
-    (controller.purchases/create-purchases-list [{:amount -10} {:amount -15} {:amount 20}] ..db..) => {:message "Processo finalizou"}
+    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado"}
+                                                 {:amount -15 :category "Saude"}
+                                                 {:amount 20 :category "Supermercado"}] ..db..) => {:message "Processo finalizou"}
     (provided
-      (db.purchases/create-purchases-list [{:amount 10 :refunded true}
-                                           {:amount 15 :refunded true}
-                                           {:amount 20}] ..db..) => ..mongo-success-result..))
+      (db.purchases/create-purchases-list [{:amount 10 :refunded true :category "Supermercado"}
+                                           {:amount 15 :refunded true :category "Saude"}
+                                           {:amount 20 :category "Supermercado"}] ..db..) => ..mongo-success-result..))
   (fact "should return purchases created"
-    (controller.purchases/create-purchases-list [{:amount -10} {:amount -15} {:amount 20}] ..db..) => {:message "Processo finalizou"}
+    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado"}
+                                                 {:amount -15 :category "Saude"}
+                                                 {:amount 20 :category "Supermercado"}] ..db..) => {:message "Processo finalizou"}
     (provided
-      (db.purchases/create-purchases-list [{:amount 10 :refunded true}
-                                           {:amount 15 :refunded true}
-                                           {:amount 20}] ..db..) => ..mongo-success-result..))
+      (db.purchases/create-purchases-list [{:amount 10 :refunded true :category "Supermercado"}
+                                           {:amount 15 :refunded true :category "Saude"}
+                                           {:amount 20 :category "Supermercado"}] ..db..) => ..mongo-success-result..))
 
   (fact "should throw"
-    (controller.purchases/create-purchases-list [{:amount -10} {:amount -15} {:amount 20}] ..db..) => (throws Exception)
+    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado"}
+                                                 {:amount -15 :category "Saude"}
+                                                 {:amount 20 :category "Supermercado"}] ..db..) => (throws Exception)
     (provided
-      (db.purchases/create-purchases-list [{:amount 10 :refunded true}
-                                           {:amount 15 :refunded true}
-                                           {:amount 20}] ..db..) => (throw (Exception.)))))
+      (db.purchases/create-purchases-list [{:amount 10 :refunded true :category "Supermercado"}
+                                           {:amount 15 :refunded true :category "Saude"}
+                                           {:amount 20 :category "Supermercado"}] ..db..) => (throw (Exception.)))))

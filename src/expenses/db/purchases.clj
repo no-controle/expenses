@@ -1,5 +1,6 @@
 (ns expenses.db.purchases
-  (:require [monger.collection :as mc]
+  (:require [clojure.string :as string]
+            [monger.collection :as mc]
             [monger.operators :refer :all]
             [io.pedestal.log :as log]
             [expenses.logic.db-helper :as db-helper]))
@@ -40,9 +41,11 @@
   (mc/find-one-as-map db purchases-collection search-parameters))
 
 (defn search-purchase-in-category-with [category-list search-parameters db]
-  (mc/find-maps db purchases-collection (merge {:refunded {$ne true}
-                                                :category {$in category-list}}
-                                               search-parameters)))
+  (mc/find-maps db purchases-collection (merge search-parameters
+                                               {:refunded {$ne true}
+                                                :category {$regex (string/join "|" category-list) $options "i"}})))
 
 (defn search-purchase-not-in-category-with [category-list search-parameters db]
-  (mc/find-maps db purchases-collection (assoc search-parameters :refunded {$ne true} :category {$nin category-list})))
+  (mc/find-maps db purchases-collection (merge search-parameters
+                                               {:refunded {$ne true}
+                                                :category {$not {$regex (string/join "|" category-list) $options "i"}}})))

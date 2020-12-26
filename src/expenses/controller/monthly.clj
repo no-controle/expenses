@@ -27,4 +27,4 @@
      :balance  (-> (:revenue revenue) (- total-expense))
      :fixed    (map to-response-item fixed)
      :variable (to-response variable)
-     :other    (to-response other)}))
+     :extra    (to-response other)}))

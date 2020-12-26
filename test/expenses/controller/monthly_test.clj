@@ -20,7 +20,7 @@
                                                                         :amount 100}
                                                                        {:title  "Pets"
                                                                         :amount 200}]
-                                                            :other    [{:title  "Reparos"
+                                                            :extra    [{:title  "Reparos"
                                                                         :amount 100}]}
       (provided
         (controller.revenue/total-revenue-for-period 2020 10 ..db..) => {:revenue 1000}
