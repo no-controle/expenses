@@ -16,17 +16,25 @@
                    (common-helper/round :precision 2))})
     (group-by :category items)))
 
+(defn total-amount [purchases]
+  (-> (->> purchases
+           (map :amount)
+           (reduce +))
+      (common-helper/round :precision 2)))
+
 (defn data-for-period [year month db]
   (let [revenue (controller.revenue/total-revenue-for-period year month db)
         fixed (controller.fixed/active-fixed-expenses db)
         variable (controller.purchases/variable-for-period year month db)
         other (controller.purchases/other-for-period year month db)
         total-expense (->> (concat fixed variable other)
-                           (map :amount)
-                           (reduce +))]
-    {:income   (common-helper/round (:revenue revenue) :precision 2)
-     :expenses (common-helper/round total-expense :precision 2)
-     :balance  (-> (:revenue revenue) (- total-expense) (common-helper/round :precision 2))
-     :fixed    (map to-response-item fixed)
-     :variable (to-response variable)
-     :extra    (to-response other)}))
+                           total-amount)]
+    {:income               (common-helper/round (:revenue revenue) :precision 2)
+     :expenses             total-expense
+     :balance              (-> (:revenue revenue) (- total-expense) (common-helper/round :precision 2))
+     :fixed                (total-amount fixed)
+     :fixed-by-category    (map to-response-item fixed)
+     :variable             (total-amount variable)
+     :variable-by-category (to-response variable)
+     :extra                (total-amount other)
+     :extra-by-category    (to-response other)}))
