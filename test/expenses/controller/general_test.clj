@@ -5,7 +5,7 @@
             [expenses.controller.fixed :as controller.fixed]
             [expenses.controller.purchases :as controller.purchases]))
 
-(facts "Getting data for given year "
+(facts "Getting data for given year"
   (fact "Should Return income for every month"
     (controller.general/data-for-period "2020" ..db..) => {:income   [{:title  "Jan"
                                                                        :amount 0}
@@ -55,7 +55,30 @@
                                                                        :amount 19000}
                                                                       {:title  "Dez"
                                                                        :amount 12000}]
-                                                           :expenses []
+                                                           :expenses [{:title  "Jan"
+                                                                       :amount 0}
+                                                                      {:title  "Fev"
+                                                                       :amount 0}
+                                                                      {:title  "Mar"
+                                                                       :amount 45000}
+                                                                      {:title  "Abr"
+                                                                       :amount 45000}
+                                                                      {:title  "Mai"
+                                                                       :amount 45000}
+                                                                      {:title  "Jun"
+                                                                       :amount 45000}
+                                                                      {:title  "Jul"
+                                                                       :amount 45000}
+                                                                      {:title  "Ago"
+                                                                       :amount 45000}
+                                                                      {:title  "Set"
+                                                                       :amount 45000}
+                                                                      {:title  "Out"
+                                                                       :amount 45000}
+                                                                      {:title  "Nov"
+                                                                       :amount 57000}
+                                                                      {:title  "Dez"
+                                                                       :amount 36000}]
                                                            :variable [{:title  "Jan"
                                                                        :amount 0}
                                                                       {:title  "Fev"
