@@ -30,6 +30,6 @@
 
 (facts "Getting data for given month and year"
   (fact "should return total purchases for given March"
-    (logic.purchases/data-for-month {:month "Mar" :month-value 3} purchase-list) => {:title "Mar" :amount 350})
+    (logic.purchases/data-for-month {:month "Mar" :month-value 3} purchase-list) => {:title "Mar" :amount 350.0})
   (fact "should return total purchases for given May"
-    (logic.purchases/data-for-month {:month "Mai" :month-value 5} purchase-list) => {:title "Mai" :amount 80}))
+    (logic.purchases/data-for-month {:month "Mai" :month-value 5} purchase-list) => {:title "Mai" :amount 80.0}))

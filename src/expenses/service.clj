@@ -28,6 +28,8 @@
       ["/revenue" {:post http-in/create-revenue}
        ["/:id" {:delete http-in/delete-revenue}]]
 
-      ["/monthly" {:get http-in/monthly-data-for-period}]
-      ["/general" {:get http-in/general-data-for-period}]
+      ["/monthly" {:get http-in/monthly-data-for-period}
+       ["/periods" {:get http-in/monthly-periods}]]
+      ["/general" {:get http-in/general-data-for-period}
+       ["/periods" {:get http-in/general-periods}]]
       ["/purchases-from-csv" {:post http-in/purchases-from-csv}]]]])

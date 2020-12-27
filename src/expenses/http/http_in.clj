@@ -58,7 +58,17 @@
   {:status 200
    :body (controller.monthly/data-for-period (:year query-params) (:month query-params) db)})
 
+(defn monthly-periods
+  [{:keys [db]}]
+  {:status 200
+   :body {:periods ["10/2020", "11/2020", "12/2020"]}})
+
 (defn general-data-for-period
   [{:keys [query-params db]}]
   {:status 200
      :body (controller.general/data-for-period (:year query-params) db)})
+
+(defn general-periods
+  [{:keys [db]}]
+  {:status 200
+   :body {:periods ["2020"]}})

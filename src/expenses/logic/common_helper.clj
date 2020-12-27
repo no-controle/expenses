@@ -30,3 +30,11 @@
               sum))
           0
           input))
+
+(defn round
+  [value & {precision :precision}]
+  (try (if precision
+         (let [scale (Math/pow 10 precision)]
+           (-> value (* scale) Math/round (/ scale)))
+         (Math/round value))
+       (catch Exception _ value)))

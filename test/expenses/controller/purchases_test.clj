@@ -91,29 +91,29 @@
 (facts "Getting purchases for every month on given year"
   (fact "Should return variable purchases for every month"
     (controller.purchases/variable-purchases-for-year "2020" ..db..) => [{:title  "Jan"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Fev"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Mar"
-                                                                          :amount 350}
+                                                                          :amount 350.0}
                                                                          {:title  "Abr"
-                                                                          :amount 14}
+                                                                          :amount 14.0}
                                                                          {:title  "Mai"
-                                                                          :amount 80}
+                                                                          :amount 80.0}
                                                                          {:title  "Jun"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Jul"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Ago"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Set"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Out"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Nov"
-                                                                          :amount 0}
+                                                                          :amount 0.0}
                                                                          {:title  "Dez"
-                                                                          :amount 0}]
+                                                                          :amount 0.0}]
     (provided
       (db.purchases/search-purchase-in-category-with variable-categories {:bill-year "2020" :refunded false} ..db..) => [{:title      "Grocery Store"
                                                                                                                           :date       "2020-12-05"
@@ -142,29 +142,29 @@
 
   (fact "Should return extra purchases for every month"
     (controller.purchases/extra-purchases-for-year "2020" ..db..) => [{:title  "Jan"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Fev"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Mar"
-                                                                       :amount 350}
+                                                                       :amount 350.0}
                                                                       {:title  "Abr"
-                                                                       :amount 14}
+                                                                       :amount 14.0}
                                                                       {:title  "Mai"
-                                                                       :amount 80}
+                                                                       :amount 80.0}
                                                                       {:title  "Jun"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Jul"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Ago"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Set"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Out"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Nov"
-                                                                       :amount 0}
+                                                                       :amount 0.0}
                                                                       {:title  "Dez"
-                                                                       :amount 0}]
+                                                                       :amount 0.0}]
     (provided
       (db.purchases/search-purchase-not-in-category-with variable-categories {:bill-year "2020" :refunded false} ..db..) => [{:title      "Grocery Store"
                                                                                                                               :date       "2020-12-05"
