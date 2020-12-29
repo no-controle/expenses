@@ -2,6 +2,7 @@
   (:require [midje.sweet :refer :all]
             [expenses.db.purchases :as db.purchases]
             [monger.collection :as mc]
+            [expenses.logic.date-helper :as date-helper]
             [expenses.logic.db-helper :as db-helper]))
 
 (fact "create purchase should add the right id and created/update date to the purchase"
@@ -10,7 +11,7 @@
                                  :amount 50} ..db..) => ..inserted-input..
   (provided
     (db-helper/generate-uuid) => ..uuid..
-    (db-helper/current-date) => ..today..
+    (date-helper/current-date) => ..today..
     (mc/insert-and-return ..db.. "purchases" {:title      "title"
                                               :date       "2020-01-01"
                                               :amount     50
@@ -25,7 +26,7 @@
                                           :amount     50
                                           :created-at ..created-date..} ..db..) => ..updated-purchase..
   (provided
-    (db-helper/current-date) => ..current-date..
+    (date-helper/current-date) => ..current-date..
     (mc/update-by-id ..db.. "purchases"  ..uuid.. {:_id        ..uuid..
                                                    :title      "title"
                                                    :date       "2020-01-01"
@@ -43,7 +44,7 @@
                                         :amount 100}] ..db..) => ..success..
   (provided
     (db-helper/generate-uuid) => ..uuid..
-    (db-helper/current-date) => ..today..
+    (date-helper/current-date) => ..today..
     (mc/insert-batch ..db.. "purchases" [{:_id        ..uuid..
                                           :title      "title"
                                           :date       "2020-01-01"

@@ -11,7 +11,7 @@
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   :profiles {:dev     {:aliases      {"run-dev" ["trampoline" "run" "-m" "expenses.server/run-dev"]}
-                       :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]
+                       :dependencies [[io.pedestal/pedestal.service-tools "0.5.8"]
                                       [midje "1.9.9"]]
                        :plugins      [[lein-midje "3.2.1"]]}
              :uberjar {:aot [expenses.server]}}

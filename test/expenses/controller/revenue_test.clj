@@ -1,7 +1,7 @@
 (ns expenses.controller.revenue-test
   (:require [midje.sweet :refer :all]
             [expenses.controller.revenue :as controller.revenue]
-            [expenses.logic.db-helper :as db-helper]
+            [expenses.logic.date-helper :as date-helper]
             [expenses.db.revenue :as db.revenue]))
 
 (facts "Create revenue"
@@ -12,7 +12,7 @@
                                                                      :amount     3000
                                                                      :recurrent  true
                                                                      :active     true
-                                                                     :created-at (db-helper/current-date)}
+                                                                     :created-at (date-helper/current-date)}
     (provided
       (db.revenue/create-revenue {:title "salary"
                                   :amount 3000
@@ -21,7 +21,7 @@
                                                             :amount     3000
                                                             :recurrent  true
                                                             :active     true
-                                                            :created-at (db-helper/current-date)})))
+                                                            :created-at (date-helper/current-date)})))
 
 (facts "Delete revenue"
   (fact "should delete revenue when exists"

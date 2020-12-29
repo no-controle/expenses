@@ -2,6 +2,7 @@
   (:require [midje.sweet :refer :all]
             [expenses.db.fixed :as db.fixed]
             [monger.collection :as mc]
+            [expenses.logic.date-helper :as date-helper]
             [expenses.logic.db-helper :as db-helper]))
 
 (fact "create fixed expense should add the right id and created-at to the expense"
@@ -11,7 +12,7 @@
                             :active true} ..db..) => ..inserted-input..
   (provided
     (db-helper/generate-uuid) => ..uuid..
-    (db-helper/current-date) => ..today..
+    (date-helper/current-date) => ..today..
     (mc/insert-and-return ..db.. "fixed" {:_id        ..uuid..
                                           :title      "Rent"
                                           :amount     800
@@ -27,7 +28,7 @@
                                      :source     "cash"
                                      :created-at ..created-date..} ..db..) => ..updated-expense..
   (provided
-    (db-helper/current-date) => ..current-date..
+    (date-helper/current-date) => ..current-date..
     (mc/update-by-id ..db.. "fixed"  ..uuid.. {:_id        ..uuid..
                                                :title      "Rent"
                                                :amount     800

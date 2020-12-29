@@ -1,11 +1,13 @@
 (ns expenses.controller.fixed-test
   (:require [midje.sweet :refer :all]
             [expenses.controller.fixed :as controller.fixed]
-            [expenses.db.fixed :as db.fixed]))
+            [expenses.db.fixed :as db.fixed]
+            [expenses.logic.date-helper :as date-helper]))
 
-(def fixed-expense-request {:title  "Rent"
-                            :amount 800
-                            :source "cash"})
+(def fixed-expense-request {:title      "Rent"
+                            :amount     800
+                            :source     "cash"
+                            :start-date "2020-12-02"})
 
 (def fixed-expense {:_id           1234
                     :title        "Rent"
@@ -15,24 +17,42 @@
                     :created-at "2020-10-10"})
 
 (facts "create a new fixed expense"
-  (fact "should return newly created expense when does not exist on db"
+  (fact "should add active true to expense and return created expense"
     (controller.fixed/create-fixed fixed-expense-request ..db..) => fixed-expense
     (provided
-      (db.fixed/search-expense-with {:title  "Rent"
-                                     :amount 800
-                                     :source "cash"
-                                     :active true} ..db..) => nil
+      (db.fixed/search-expense-with {:title      "Rent"
+                                     :amount     800
+                                     :source     "cash"
+                                     :start-date "2020-12-02"
+                                     :active     true} ..db..) => nil
       (db.fixed/create-expense {:title  "Rent"
                                 :amount 800
                                 :source "cash"
+                                :start-date "2020-12-02"
                                 :active true} ..db..) => fixed-expense))
 
-  (fact "should return error when creating existing expense"
+  (fact "should set start-date to current date when it's empty and return created expense"
+        (controller.fixed/create-fixed (dissoc fixed-expense-request :start-date) ..db..) => fixed-expense
+        (provided
+          (date-helper/current-date) => ..today..
+          (db.fixed/search-expense-with {:title      "Rent"
+                                         :amount     800
+                                         :source     "cash"
+                                         :start-date ..today..
+                                         :active     true} ..db..) => nil
+          (db.fixed/create-expense {:title  "Rent"
+                                    :amount 800
+                                    :source "cash"
+                                    :start-date ..today..
+                                    :active true} ..db..) => fixed-expense))
+
+  (fact "should return error when creating existent expense"
     (controller.fixed/create-fixed fixed-expense-request ..db..) => (throws Exception)
     (provided
       (db.fixed/search-expense-with {:title  "Rent"
                                      :amount 800
                                      :source "cash"
+                                     :start-date "2020-12-02"
                                      :active true} ..db..) => [fixed-expense])))
 
 (facts "delete fixed expense"

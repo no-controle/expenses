@@ -2,6 +2,7 @@
   (:require [midje.sweet :refer :all]
             [expenses.db.revenue :as db.revenue]
             [expenses.logic.db-helper :as db-helper]
+            [expenses.logic.date-helper :as date-helper]
             [monger.collection :as mc]))
 
 (fact "create revenue should add the right id and created-at to the revenue"
@@ -11,7 +12,7 @@
                               :active    true} ..db..) => ..inserted-input..
   (provided
     (db-helper/generate-uuid) => ..uuid..
-    (db-helper/current-date) => ..today..
+    (date-helper/current-date) => ..today..
     (mc/insert-and-return ..db.. "revenue" {:_id        ..uuid..
                                             :title      "Salary"
                                             :amount     3500
@@ -27,7 +28,7 @@
                                        :active     false
                                        :created-at ..created-date..} ..db..) => ..updated-revenue..
   (provided
-    (db-helper/current-date) => ..current-date..
+    (date-helper/current-date) => ..current-date..
     (mc/update-by-id ..db.. "revenue"  ..uuid.. {:title      "Salary"
                                                  :amount     3500
                                                  :active     false

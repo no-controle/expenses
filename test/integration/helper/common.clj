@@ -1,7 +1,7 @@
 (ns integration.helper.common
   (:require [clj-time.core :as time]
             [clojure.data.json :as json]
-            [expenses.logic.db-helper :as db-helper]
+            [expenses.logic.date-helper :as date-helper]
             [expenses.server :as server]
             [io.pedestal.http :as bootstrap]
             [io.pedestal.test :refer :all]
@@ -25,7 +25,7 @@
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet server/configuration)))
 
-(def current-date (db-helper/current-date))
+(def current-date (date-helper/current-date))
 
 (defn clean-collection [collection-name]
   (-> (mg/get-db (mg/connect) db-name)
@@ -50,15 +50,6 @@
 (defn do-get-request [url]
   (let [response (response-for service
                                :get url)]
-    (-> response
-        :body
-        (json/read-str :key-fn keyword))))
-
-(defn do-post-request-with-text-body [url body]
-  (let [response (response-for service
-                               :post url
-                               :headers {"Content-Type" "text/plain"}
-                               :body body)]
     (-> response
         :body
         (json/read-str :key-fn keyword))))
