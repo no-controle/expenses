@@ -1,10 +1,14 @@
 (ns expenses.controller.revenue
   (:require [expenses.db.revenue :as db.revenue]
             [expenses.logic.date-helper :refer [months]]
-            [expenses.logic.revenue :as logic.revenue]))
+            [expenses.logic.revenue :as logic.revenue]
+            [expenses.logic.date-helper :as date-helper]))
 
 (defn create-revenue [revenue db]
-  (db.revenue/create-revenue (assoc revenue :active true) db))
+  (-> revenue :start-date nil?
+      (if (assoc revenue :start-date (date-helper/current-date)) revenue)
+      (assoc :active true)
+      (db.revenue/create-revenue db)))
 
 (defn delete-revenue [id db]
   (let [revenue (-> (db.revenue/search-revenue-with {:_id id} db) first)]

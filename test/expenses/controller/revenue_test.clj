@@ -5,23 +5,62 @@
             [expenses.db.revenue :as db.revenue]))
 
 (facts "Create revenue"
-  (fact "should create successfully new revenue"
-    (controller.revenue/create-revenue {:title     "salary"
-                                        :amount    3000
-                                        :recurrent true} ..db..) => {:title      "salary"
-                                                                     :amount     3000
-                                                                     :recurrent  true
-                                                                     :active     true
-                                                                     :created-at (date-helper/current-date)}
+  (fact "should create recurrent revenue with active true"
+    (controller.revenue/create-revenue {:title      "salary"
+                                        :amount     3000
+                                        :start-date "2020-10-01"
+                                        :recurrent  true} ..db..) => {:title          "salary"
+                                                                      :amount     3000
+                                                                      :recurrent  true
+                                                                      :active     true
+                                                                      :start-date "2020-10-01"
+                                                                      :created-at (date-helper/current-date)}
     (provided
-      (db.revenue/create-revenue {:title "salary"
-                                  :amount 3000
-                                  :recurrent true
-                                  :active true} ..db..) => {:title      "salary"
-                                                            :amount     3000
-                                                            :recurrent  true
-                                                            :active     true
-                                                            :created-at (date-helper/current-date)})))
+      (db.revenue/create-revenue {:title      "salary"
+                                  :amount     3000
+                                  :recurrent  true
+                                  :start-date "2020-10-01"
+                                  :active     true} ..db..) => {:title      "salary"
+                                                                :amount     3000
+                                                                :recurrent  true
+                                                                :active     true
+                                                                :start-date "2020-10-01"
+                                                                :created-at (date-helper/current-date)}))
+
+  (fact "should create regular revenue with active true"
+    (controller.revenue/create-revenue {:title      "Jobz"
+                                        :amount     3000
+                                        :start-date "2020-10-01"} ..db..) => {:title      "Jobz"
+                                                                              :amount     3000
+                                                                              :active     true
+                                                                              :start-date "2020-10-01"
+                                                                              :created-at (date-helper/current-date)}
+    (provided
+      (db.revenue/create-revenue {:title      "Jobz"
+                                  :amount     3000
+                                  :active     true
+                                  :start-date "2020-10-01"} ..db..) => {:title      "Jobz"
+                                                                        :amount     3000
+                                                                        :active     true
+                                                                        :start-date "2020-10-01"
+                                                                        :created-at (date-helper/current-date)}))
+
+  (fact "should set start date to current date when it is empty"
+    (controller.revenue/create-revenue {:title      "Jobz"
+                                        :amount     3000} ..db..) => {:title      "Jobz"
+                                                                      :amount     3000
+                                                                      :active     true
+                                                                      :start-date (date-helper/current-date)
+                                                                      :created-at (date-helper/current-date)}
+    (provided
+      (db.revenue/create-revenue {:title      "Jobz"
+                                  :amount     3000
+                                  :active     true
+                                  :start-date (date-helper/current-date)} ..db..) => {:title      "Jobz"
+                                                                                      :amount     3000
+                                                                                      :active     true
+                                                                                      :start-date (date-helper/current-date)
+                                                                                      :created-at (date-helper/current-date)})))
 
 (facts "Delete revenue"
   (fact "should delete revenue when exists"
