@@ -3,7 +3,7 @@
 
 (defn total-amount-created-before-for [year month input]
   (reduce (fn [sum value]
-            (if (-> (date-helper/parse (:updated-at value))
+            (if (-> (date-helper/parse (:start-date value))
                     (date-helper/before-or-equal? (date-helper/last-day-of-the-month year month)))
               (+ sum (:amount value))
               sum))
@@ -12,8 +12,11 @@
 
 (defn total-amount-created-after-for [year month input]
   (reduce (fn [sum value]
-            (if (-> (date-helper/parse (:updated-at value))
-                    (date-helper/after-or-equal? (date-helper/first-day-of-the-month year month)))
+            (if (and
+                  (-> (date-helper/parse (:start-date value))
+                      (date-helper/before-or-equal? (date-helper/last-day-of-the-month year month)))
+                  (-> (date-helper/parse (:updated-at value))
+                      (date-helper/after-or-equal? (date-helper/first-day-of-the-month year month))))
               (+ sum (:amount value))
               sum))
           0

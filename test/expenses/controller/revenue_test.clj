@@ -132,6 +132,7 @@
                                                                      :amount     3500
                                                                      :active     true
                                                                      :recurrent  true
+                                                                     :created-at "2020-01-01"
                                                                      :created-at "2020-03-01"
                                                                      :updated-at "2020-03-01"}]
       (db.revenue/search-revenue-with {:recurrent true
@@ -172,6 +173,7 @@
                                                                       :amount     3500
                                                                       :active     true
                                                                       :recurrent  true
+                                                                      :start-date "2020-01-01"
                                                                       :created-at "2020-03-01"
                                                                       :updated-at "2020-03-01"}]
       (db.revenue/search-revenue-with {:recurrent false :period "2020"} ..db..) => []))

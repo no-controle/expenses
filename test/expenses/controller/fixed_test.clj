@@ -104,16 +104,19 @@
       (db.fixed/search-expense-with {:active true} ..db..) => [{:title        "Rent"
                                                                 :amount       800
                                                                 :active       true
+                                                                :start-date "2020-04-01"
                                                                 :created-at "2020-04-01"
                                                                 :updated-at "2020-04-01"}
                                                                {:title        "Internet Provider"
                                                                 :amount       100
                                                                 :active       true
+                                                                :start-date "2020-04-01"
                                                                 :created-at "2020-04-01"
                                                                 :updated-at "2020-04-01"}
                                                                {:title        "Netflix"
                                                                 :amount       20
                                                                 :active       true
+                                                                :start-date "2020-10-10"
                                                                 :created-at "2020-10-10"
                                                                 :updated-at "2020-10-10"}]
       (db.fixed/search-expense-with {:active false} ..db..) => []))
@@ -148,10 +151,12 @@
       (db.fixed/search-expense-with {:active false} ..db..) => [{:title        "Rent"
                                                                  :amount       1400
                                                                  :active       false
+                                                                 :start-date "2019-04-01"
                                                                  :created-at "2019-04-01"
                                                                  :updated-at "2020-04-01"}
                                                                 {:title        "Internet Provider"
                                                                  :amount       100
                                                                  :active       false
+                                                                 :start-date "2019-04-01"
                                                                  :created-at "2019-04-01"
                                                                  :updated-at "2020-04-01"}])))

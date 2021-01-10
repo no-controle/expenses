@@ -3,9 +3,9 @@
             [io.pedestal.interceptor.error :as error-int]
             [monger.core :as mg]))
 
-(def db-name "expenses-int-test")
+;(def db-name "expenses-int-test")
 ;(def db-name "expenses-dev")
-;(def db-name "expenses")
+(def db-name "expenses")
 
 (def db-interceptor
   {:name  :database-interceptor

@@ -22,8 +22,8 @@
 (defn create-revenue
   [{:keys [json-params db]}]
   {:status 200
-   :body (-> json-params
-             (controller.revenue/create-revenue db))})
+   :body   (-> json-params
+               (controller.revenue/create-revenue db))})
 
 (defn delete-revenue
   [{:keys [path-params db]}]
@@ -49,26 +49,26 @@
 (defn refund-purchase
   [{:keys [path-params db]}]
   {:status 200
-   :body (-> path-params
-             :id
-             (controller.purchases/refund-purchase db))})
+   :body   (-> path-params
+               :id
+               (controller.purchases/refund-purchase db))})
 
 (defn monthly-data-for-period
   [{:keys [query-params db]}]
   {:status 200
-   :body (controller.monthly/data-for-period (:year query-params) (:month query-params) db)})
+   :body   (controller.monthly/data-for-period (:year query-params) (:month query-params) db)})
 
 (defn monthly-periods
   [{:keys [db]}]
   {:status 200
-   :body {:periods ["10/2020", "11/2020", "12/2020"]}})
+   :body   {:periods ["01/2020", "02/2020", "03/2020", "04/2020", "05/2020", "06/2020", "07/2020", "08/2020", "09/2020", "10/2020", "11/2020", "12/2020", "01/2021"]}})
 
 (defn general-data-for-period
   [{:keys [query-params db]}]
   {:status 200
-     :body (controller.general/data-for-period (:year query-params) db)})
+   :body   (controller.general/data-for-period (:year query-params) db)})
 
 (defn general-periods
   [{:keys [db]}]
   {:status 200
-   :body {:periods ["2020"]}})
+   :body   {:periods ["2020"]}})

@@ -23,10 +23,11 @@
       (common-helper/round :precision 2)))
 
 (defn data-for-period [year month db]
-  (let [revenue (controller.revenue/total-revenue-for-period year month db)
+  (let [month-without-leading-zero (-> month (Integer/parseInt) str)
+        revenue (controller.revenue/total-revenue-for-period year month-without-leading-zero db)
         fixed (controller.fixed/active-fixed-expenses db)
-        variable (controller.purchases/variable-for-period year month db)
-        other (controller.purchases/other-for-period year month db)
+        variable (controller.purchases/variable-for-period year month-without-leading-zero db)
+        other (controller.purchases/other-for-period year month-without-leading-zero db)
         total-expense (->> (concat fixed variable other)
                            total-amount)]
     {:income               (common-helper/round (:revenue revenue) :precision 2)
