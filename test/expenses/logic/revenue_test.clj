@@ -6,12 +6,14 @@
                         :amount     3500
                         :active     true
                         :recurrent  true
+                        :start-date "2020-04-30"
                         :created-at "2020-04-30"
                         :updated-at "2020-04-30"}
                        {:title      "Salary other"
                         :amount     4300
                         :active     true
                         :recurrent  true
+                        :start-date "2020-01-01"
                         :created-at "2020-01-01"
                         :updated-at "2020-01-01"}])
 
@@ -19,15 +21,18 @@
                           :amount     2200
                           :active     false
                           :recurrent  true
+                          :start-date "2019-03-01"
                           :created-at "2019-03-01"
                           :updated-at "2020-02-01"}])
 
 (def other-revenue [{:title      "Jobz"
                      :amount     1100
+                     :start-date "2020-02-01"
                      :created-at "2020-02-01"
                      :updated-at "2020-02-01"}
                     {:title      "Jobz"
                      :amount     1100
+                     :start-date "2020-06-01"
                      :created-at "2020-06-01"
                      :updated-at "2020-06-01"}])
 

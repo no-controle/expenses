@@ -100,7 +100,7 @@
                                        :active    true} ..db..) => [])))
 
 (facts "Getting revenue for every month on given year"
-  (fact "Should return recurrent revenue from created month until december"
+  (fact "Should return recurrent revenue from created month until december "
     (controller.revenue/revenue-for-year "2020" ..db..) => [{:title  "Jan"
                                                              :amount 0.0}
                                                             {:title  "Fev"
@@ -132,7 +132,7 @@
                                                                      :amount     3500
                                                                      :active     true
                                                                      :recurrent  true
-                                                                     :created-at "2020-01-01"
+                                                                     :start-date "2020-03-01"
                                                                      :created-at "2020-03-01"
                                                                      :updated-at "2020-03-01"}]
       (db.revenue/search-revenue-with {:recurrent true

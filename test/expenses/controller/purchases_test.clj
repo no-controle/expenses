@@ -191,29 +191,24 @@
                                                                                                                               :bill-month "05"
                                                                                                                               :category   "Restaurant"}])))
 
-(facts "create a purchases list from csv"
-  (fact "should add refunded true when there is negative items on the list"
-    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado"}
-                                                 {:amount -15 :category "Saude"}
-                                                 {:amount 20 :category "Supermercado"}] ..db..) => {:message "Processo finalizou"}
+(facts "create a purchases list"
+  (fact "should add refunded true when there is negative items on the list and save to database"
+    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado" :date "2020-10-01" :source "Credit Card" :title "Target"}
+                                                 {:amount -15 :category "Saude" :date "2020-10-01" :source "Credit Card" :title "CVS"}
+                                                 {:amount 20 :category "Supermercado" :date "2020-10-02" :source "Credit Card" :title "Target"}] ..db..) => {:message "Processo finalizou"}
     (provided
-      (db.purchases/create-purchases-list [{:amount 10 :refunded true :category "Supermercado"}
-                                           {:amount 15 :refunded true :category "Saude"}
-                                           {:amount 20 :category "Supermercado"}] ..db..) => ..mongo-success-result..))
-  (fact "should return purchases created"
-    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado"}
-                                                 {:amount -15 :category "Saude"}
-                                                 {:amount 20 :category "Supermercado"}] ..db..) => {:message "Processo finalizou"}
-    (provided
-      (db.purchases/create-purchases-list [{:amount 10 :refunded true :category "Supermercado"}
-                                           {:amount 15 :refunded true :category "Saude"}
-                                           {:amount 20 :category "Supermercado"}] ..db..) => ..mongo-success-result..))
+      (db.purchases/search-purchase-with {:amount 10 :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => nil
+      (db.purchases/search-purchase-with {:amount 15 :date "2020-10-01" :source "Credit Card" :title "CVS"} ..db..) => nil
+      (db.purchases/search-purchase-with {:amount 20 :date "2020-10-02" :source "Credit Card" :title "Target"} ..db..) => nil
+      (db.purchases/create-purchase {:amount 10 :refunded true :category "Supermercado" :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => ..first-purchase..
+      (db.purchases/create-purchase {:amount 15 :refunded true :category "Saude" :date "2020-10-01" :source "Credit Card" :title "CVS"} ..db..) => ..second-purchase..
+      (db.purchases/create-purchase {:amount 20 :category "Supermercado" :date "2020-10-02" :source "Credit Card" :title "Target"} ..db..) => ..third-purchase..))
 
-  (fact "should throw"
-    (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado"}
-                                                 {:amount -15 :category "Saude"}
-                                                 {:amount 20 :category "Supermercado"}] ..db..) => (throws Exception)
+
+  (fact "should throw when there was an error on db"
+        (controller.purchases/create-purchases-list [{:amount -10 :category "Supermercado" :date "2020-10-01" :source "Credit Card" :title "Target"}
+                                                     {:amount -15 :category "Saude" :date "2020-10-01" :source "Credit Card" :title "CVS"}
+                                                     {:amount 20 :category "Supermercado" :date "2020-10-02" :source "Credit Card" :title "Target"}] ..db..) => (throws Exception)
     (provided
-      (db.purchases/create-purchases-list [{:amount 10 :refunded true :category "Supermercado"}
-                                           {:amount 15 :refunded true :category "Saude"}
-                                           {:amount 20 :category "Supermercado"}] ..db..) => (throw (Exception.)))))
+      (db.purchases/search-purchase-with {:amount 10 :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => nil
+      (db.purchases/create-purchase {:amount 10 :refunded true :category "Supermercado" :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => (throw (Exception.)))))

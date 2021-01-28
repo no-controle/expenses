@@ -5,27 +5,32 @@
 (def active-expenses [{:title        "Rent"
                        :amount       800
                        :active       true
+                       :start-date "2020-04-01"
                        :created-at "2020-04-01"
                        :updated-at "2020-04-01"}
                       {:title        "Internet Provider"
                        :amount       100
                        :active       true
+                       :start-date "2020-04-01"
                        :created-at "2020-04-01"
                        :updated-at "2020-04-01"}
                       {:title        "Netflix"
                        :amount       20
                        :active       true
+                       :start-date "2020-10-10"
                        :created-at "2020-10-10"
                        :updated-at "2020-10-10"}])
 
 (def inactive-expenses [{:title        "Rent"
                          :amount       1400
                          :active       false
+                         :start-date "2019-04-01"
                          :created-at "2019-04-01"
                          :updated-at "2020-04-01"}
                         {:title        "Internet Provider"
                          :amount       100
                          :active       false
+                         :start-date "2019-04-01"
                          :created-at "2019-04-01"
                          :updated-at "2020-04-01"}])
 
@@ -36,5 +41,5 @@
     (logic.fixed/data-for-month-year {:month "Fev" :month-value 2} "2020" active-expenses inactive-expenses) => {:title "Fev" :amount 1500.0})
   (fact "should return total adding current active expenses and Inactive expenses for month"
     (logic.fixed/data-for-month-year {:month "Abr" :month-value 4} "2020" active-expenses inactive-expenses) => {:title "Abr" :amount 2400.0})
-  (fact "should return total adding current Inactive expenses for month"
+  (fact "should return total adding current Inactive expenses for month "
     (logic.fixed/data-for-month-year {:month "Out" :month-value 10} "2020" active-expenses inactive-expenses) => {:title "Out" :amount 920.0}))

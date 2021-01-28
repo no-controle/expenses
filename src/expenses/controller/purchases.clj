@@ -47,7 +47,8 @@
 
 (defn create-purchases-list
   [purchases-list db]
-  (-> (->> purchases-list
-           (map #(map-refunded %)))
-      (db.purchases/create-purchases-list db))
+  (doseq [purchase purchases-list]
+    (-> purchase
+        map-refunded
+        (create-purchase db)))
   {:message "Processo finalizou"})
