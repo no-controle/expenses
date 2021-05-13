@@ -6,17 +6,18 @@
 
 (def variable-categories ["Supermercado", "Supermarket" "Transporte", "Transportation", "Saúde", "Saude", "Health"])
 
-(defn purchase-search-params [purchase]
-  {:title  (:title purchase)
-   :amount (:amount purchase)
-   :date   (:date purchase)
-   :source (:source purchase)})
+(defn build-based-on-similar [new-purchase similar-purchases]
+  (let [category (if-not (empty? similar-purchases) (-> similar-purchases first :category) (:category new-purchase))]
+    (assoc new-purchase :category category)))
 
-(defn create-purchase
-  [purchase db]
-  (let [existent-purchase (db.purchases/search-purchase-with (purchase-search-params purchase) db)]
+(defn create-purchase [purchase db]
+  (clojure.pprint/pprint "controller.create-purchase")
+  (clojure.pprint/pprint "purchase")
+  (clojure.pprint/pprint purchase)
+  (let [similar-purchases (db.purchases/search-similar-purchases-for (:title purchase) db)
+        existent-purchase (logic.purchases/existent-purchase-for purchase similar-purchases)]
     (if (empty? existent-purchase)
-      (db.purchases/create-purchase purchase db)
+      (db.purchases/create-purchase (build-based-on-similar purchase similar-purchases) db)
       (throw (InstanceAlreadyExistsException. (str "Purchase id: " (:_id existent-purchase)))))))
 
 (defn refund-purchase [id db]
@@ -47,6 +48,9 @@
 
 (defn create-purchases-list
   [purchases-list db]
+  (clojure.pprint/pprint "controller.create-purchases-list")
+  (clojure.pprint/pprint "purchases list")
+  (clojure.pprint/pprint purchases-list)
   (doseq [purchase purchases-list]
     (-> purchase
         map-refunded

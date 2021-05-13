@@ -6,7 +6,7 @@
 (def variable-categories ["Supermercado", "Supermarket" "Transporte", "Transportation", "Saúde", "Saude", "Health"])
 
 (facts "create a new purchase"
-  (fact "should return purchase created"
+  (fact "should return purchase created with request category"
     (controller.purchases/create-purchase {:title      "Target"
                                            :amount     240
                                            :source     "Credit Card"
@@ -15,10 +15,26 @@
                                            :bill-month "11"
                                            :bill-year  "2020"} ..db..) => ..mongo-success-result..
     (provided
-      (db.purchases/search-purchase-with {:title  "Target"
-                                          :amount 240
-                                          :date   "2020-10-20"
-                                          :source "Credit Card"} ..db..) => nil
+      (db.purchases/search-similar-purchases-for "Target" ..db..) => []
+      (db.purchases/create-purchase {:title      "Target"
+                                     :amount     240
+                                     :source     "Credit Card"
+                                     :category   "Supermarket"
+                                     :date       "2020-10-20"
+                                     :bill-month "11"
+                                     :bill-year  "2020"} ..db..) => ..mongo-success-result..))
+
+  (fact "should return purchase created with similar purchase category"
+    (controller.purchases/create-purchase {:title      "Target"
+                                           :amount     240
+                                           :source     "Credit Card"
+                                           :category   "Restaurant"
+                                           :date       "2020-10-20"
+                                           :bill-month "11"
+                                           :bill-year  "2020"} ..db..) => ..mongo-success-result..
+    (provided
+      (db.purchases/search-similar-purchases-for "Target" ..db..) => [{:title "Target"
+                                                                       :category "Supermarket"}]
       (db.purchases/create-purchase {:title      "Target"
                                      :amount     240
                                      :source     "Credit Card"
@@ -36,10 +52,13 @@
                                            :bill-month "11"
                                            :bill-year  "2020"} ..db..) => (throws Exception)
     (provided
-      (db.purchases/search-purchase-with {:title  "Target"
-                                          :amount 240
-                                          :date   "2020-10-20"
-                                          :source "Credit Card"} ..db..) => ..existent-purchase..)))
+      (db.purchases/search-similar-purchases-for "Target" ..db..) => [{:title      "Target"
+                                                                       :amount     240
+                                                                       :source     "Credit Card"
+                                                                       :category   "Supermarket"
+                                                                       :date       "2020-10-20"
+                                                                       :bill-month "11"
+                                                                       :bill-year  "2020"}])))
 
 (facts "Variable purchases for given year and month"
   (fact "should return list of variable purchases"
@@ -197,9 +216,8 @@
                                                  {:amount -15 :category "Saude" :date "2020-10-01" :source "Credit Card" :title "CVS"}
                                                  {:amount 20 :category "Supermercado" :date "2020-10-02" :source "Credit Card" :title "Target"}] ..db..) => {:message "Processo finalizou"}
     (provided
-      (db.purchases/search-purchase-with {:amount 10 :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => nil
-      (db.purchases/search-purchase-with {:amount 15 :date "2020-10-01" :source "Credit Card" :title "CVS"} ..db..) => nil
-      (db.purchases/search-purchase-with {:amount 20 :date "2020-10-02" :source "Credit Card" :title "Target"} ..db..) => nil
+      (db.purchases/search-similar-purchases-for "Target" ..db..) => []
+      (db.purchases/search-similar-purchases-for "CVS" ..db..) => []
       (db.purchases/create-purchase {:amount 10 :refunded true :category "Supermercado" :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => ..first-purchase..
       (db.purchases/create-purchase {:amount 15 :refunded true :category "Saude" :date "2020-10-01" :source "Credit Card" :title "CVS"} ..db..) => ..second-purchase..
       (db.purchases/create-purchase {:amount 20 :category "Supermercado" :date "2020-10-02" :source "Credit Card" :title "Target"} ..db..) => ..third-purchase..))
@@ -210,5 +228,5 @@
                                                      {:amount -15 :category "Saude" :date "2020-10-01" :source "Credit Card" :title "CVS"}
                                                      {:amount 20 :category "Supermercado" :date "2020-10-02" :source "Credit Card" :title "Target"}] ..db..) => (throws Exception)
     (provided
-      (db.purchases/search-purchase-with {:amount 10 :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => nil
+      (db.purchases/search-similar-purchases-for "Target" ..db..) => []
       (db.purchases/create-purchase {:amount 10 :refunded true :category "Supermercado" :date "2020-10-01" :source "Credit Card" :title "Target"} ..db..) => (throw (Exception.)))))

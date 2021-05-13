@@ -32,5 +32,5 @@
                                                                :bill-year  "2020"})]
     (helper/do-delete-request (str "/expenses/purchase/" (:id purchase)))) => {:message "Purchase deleted"})
 
-(fact "Should create purchases list"
+(fact "Should create purchases list "
   (helper/do-post-request "/purchases-from-csv" {:csv csv}) => {:message "Processo finalizou"})
